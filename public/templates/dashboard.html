@@ -1,0 +1,234 @@
+<div class="row">
+
+	<!-- Produse -->
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon blue pull-left">
+					<i class="fa fa-tags"></i>
+				</div>
+				<div class="title">Produse</div>
+				<div class="comment">
+					<button type="button" class="btn btn-default fa" ng-class="productsExpand" ng-click="collapseProducts()"></button>
+					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openAddProductModal()"> </button>
+				</div>
+				<div class="comment">Numar total pe stoc: {{tables.produse.length}}</div>
+				<div class="comment" style="color:red">In curs de livrare: {{tables.produseInCursDeLivrare.length}}</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+
+
+	<!-- Clienti -->
+
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon green pull-left">
+					<i class="fa fa-users"></i>
+				</div>
+				<div class="title">Clienti</div>
+				<div class="comment">
+					<button type="button" class="btn btn-default fa" ng-class="clientsExpand" ng-click="collapseClients()"></button>
+					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openAddUserModal()">  </button>
+				</div>
+				<div class="comment">Numar total: {{tables.clienti.length}}</div>
+				<div class="comment" style="color:red">Cu comenzi neterminate: {{tables.comenzi.length || 2}}</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+
+
+	<!-- Comenzi in desfasurare -->
+
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon orange pull-left">
+					<i class="fa fa-truck"></i>
+				</div>
+				<div class="title">Comenzi</div>
+				<div class="comment">
+					<button type="button" class="btn btn-default fa" ng-class="ordersExpand" ng-click="collapseOrders()"></button>
+					<a type="button" class="pull-right btn btn-default fa fa-plus" href="#/cart"></a>
+				</div>
+				<div class="comment" style="color:red"> Numar total: {{tables.status.length || 334}} </div>
+				<div class="comment" style="color:red"> In desfasurare: {{tables.status.length || 4}} </div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+
+	<!-- Animale -->
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon red pull-left">
+					<i class="fa fa-sitemap"></i>
+				</div>
+				<div class="title">Animale</div>
+				<div class="comment">
+					<button type="button" class="btn btn-default fa" ng-class="animalsExpand" ng-click="collapseAnimals()"></button>
+				</div>
+				<div class="comment">WHAT COULD BE FKING HERE?{{tables.animal.length || 3}}</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+
+
+
+
+</div>
+
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-xs-12">
+	</div>
+</div>
+<div class="row">
+
+	<!-- Tabel cu produse -->
+	<div id="tabelProduse" class="col-lg-6 col-md-12 col-xs-12" uib-collapse="productsAreCollapsed">
+			<rd-widget>
+				<rd-widget-header icon="fa-tags" title="Produse">
+				</rd-widget-header>
+				<rd-widget-body classes="large no-padding">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<td>Nume</td>
+								<td>Descriere</td>
+								<td>Specie</td>
+								<td>Talie</td>
+								<td>Varsta</td>
+								<td>Brand</td>
+								<td>Categorie</td>
+								<td>Pret</td>
+								<td>Stoc</td>
+								<td>Gestioneaza</td>
+							</thead>
+							<tbody ng-repeat="produs in tables.produse">
+								<tr>
+									<td>{{produs.Nume || 'Hopa' }}</td>
+									<td>{{produs.Descriere || 'Hopa'}}</td>
+									<td>{{produs.Specie || 'Hopa'}}</td>
+									<td>{{produs.Talie || 'Hopa'}}</td>
+									<td>{{produs.Varsta || 'Hopa'}}</td>
+									<td>{{produs.Firma || 'Hopa'}}</td>
+									<td>{{produs.Categorie || 'HOPA'}}</td>
+									<td>{{produs.Pret || 'HOPA'}} RON</td>
+									<td>{{produs.Stoc || 'HOPA'}}</td>
+									<td>
+										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openAddProductModal(produs)"></button>
+										<button class="fa fa-times btn btn-danger" ng-click="removeProduct($index,produs.ProdusID)"></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+	</div>
+
+	<!-- Tabel cu Clienti -->
+	<div id="tabelClienti" class="col-lg-6	 col-md-12 col-xs-12" uib-collapse="clientsAreCollapsed">
+			<rd-widget>
+				<rd-widget-header icon="fa-users" title="Clienti">
+				</rd-widget-header>
+				<rd-widget-body classes="large no-padding">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<td>Nume</td>
+								<td>Username</td>
+								<td>Email</td>
+								<td>Adresa</td>
+								<td>Oras</td>
+								<td>Judet</td>
+								<td>Gestioneaza</td>
+							</thead>
+							<tbody ng-repeat="user in tables.clienti">
+								<tr>
+									<td>{{user.Nume || 'Jinga Radu'}}</td>
+									<td>{{user.Utilizator || 'jiradu'}}</td>
+									<td>{{user.Email || 'jinga.radu@gmail.com'}}</td>
+									<td>{{user.Adresa || 'O adresa random'}}</td>
+									<td>{{user.Oras || 'Targoviste'}}</td>
+									<td>{{user.Judet || 'Dambovita'}}</td>
+									<td>
+										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openAddUserModal(user)"></button>
+										<button class="fa fa-times btn btn-danger"></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+	</div>
+
+
+	<!-- Tabel cu comenzi in desfasurare -->
+	<div id="tabelComenzi" class="col-lg-6 col-md-12 col-xs-12" uib-collapse="ordersAreCollapsed">
+			<rd-widget>
+				<rd-widget-header icon="fa-truck" title="Comenzi in desfasurare">
+				</rd-widget-header>
+				<rd-widget-body classes="large no-padding">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<td>Numar comanda</td>
+								<td>Numele destinatarului</td>
+								<td>Adresa</td>
+								<td>Status</td>
+								<td>Schimba status</td>
+							</thead>
+							<tbody ng-repeat="users in tables.clienti">
+								<tr>
+									<td>{{comanda.comandaID || '13242'}}</td>
+									<td>{{users.Nume}}</td>
+									<td>{{adresa.oras || "Targoviste"}}</td>
+									<td>{{comanda.status || "In asteptare"}}</td>
+									<td>
+										<button class="btn btn-primary">Finalizare</button>
+										<button class="btn btn-danger">Anulare</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+	</div>
+
+	<!-- Tabel cu tipuri animale-->
+	<div id="tabelAnimale" class="col-lg-6	 col-md-12 col-xs-12" uib-collapse="animalsAreCollapsed">
+			<rd-widget>
+				<rd-widget-header icon="fa-sitemap" title="Animale">
+
+				</rd-widget-header>
+				<rd-widget-body classes="large no-padding">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<td>Nume</td>
+								<td>Talie</td>
+								<td>Varsta</td>
+								<td>Produse atribuite</td>
+							</thead>
+							<tbody ng-repeat="animal in tables.animale">
+								<tr>
+									<td>{{animal.Nume || 'HOPA' }}</td>
+									<td>{{animal.Talie || 'HOPA'}}</td>
+									<td>{{animal.Varsta || 'HOPA'}}</td>
+									<td>{{animal.NrProduse}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+	</div>
+
+
+
+
+</div>

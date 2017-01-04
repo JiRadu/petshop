@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en" ng-app="petShopApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Proiect Baze de Date</title>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/rdash.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- endbuild -->
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/master.controller.js"></script>
+    <script type="text/javascript" src="js/modals.controller.js"></script>
+    <script type="text/javascript" src="js/directives/widget-body.js"></script>
+    <script type="text/javascript" src="js/directives/widget-footer.js"></script>
+    <script type="text/javascript" src="js/directives/widget-header.js"></script>
+    <script type="text/javascript" src="js/directives/widget.js"></script>
+
+</head>
+
+<body ng-controller="MasterCtrl">
+    <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar">
+                <li class="sidebar-main">
+                    <a class="sidebarA" ng-click="toggleSidebar()">
+            Panou de admin
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+                </li>
+                <li class="sidebar-list">
+                    <a class="sidebarA" href="#" ng-click="collapseFilters()"> Control Tabele
+            <span class="menu-icon fa fa-table"></span>
+          </a>
+                </li>
+                <li class="sidebar-list">
+                    <a class="sidebarA" href="#/cart" ng-click="collapseFilters()"> Cos de cumparaturi <span class="menu-icon fa fa-shopping-cart "></span></a>
+                </li>
+                <li class="sidebar-list">
+                    <a class="sidebarA" href="#/shop" ng-click="filtersAreCollapsed?expandFilters():collapseFilters()">
+                      Produse
+                      <span class="menu-icon fa fa-tags"></span>
+                    </a>
+                    <div class="container-fluid" uib-collapse="filtersAreCollapsed" style="-webkit-transition:none; transition: none">
+                        <div class="btn-group" uib-dropdown>
+                            <div style="color:#b2bfdc">Filtre active:</div>
+                            <!-- Filtrul specie -->
+                            <table>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="speciiAlese.length != 0">{{'Specie: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="specie in speciiAlese" ng-click="choiceClose($index, speciiAlese)"> {{specie+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="varsteAlese.length != 0">{{'Varsta: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="varsta in varsteAlese" ng-click="choiceClose($index, varsteAlese)"> {{varsta+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="taliiAlese.length != 0">{{'Talie: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="talie in taliiAlese" ng-click="choiceClose($index, taliiAlese)"> {{talie+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="preturiAlese.length != 0">{{'Pret: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="pret in preturiAlese" ng-click="choiceClose($index, preturiAlese)"> {{pret+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="firmeAlese.length != 0">{{'Firma: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="firma in firmeAlese" ng-click="choiceClose($index, firmeAlese)"> {{firma+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div style="width:150px">
+                                    <a class="text" style="text-indent:0px;color:yellow"  ng-show="aromeAlese.length != 0">{{'Aroma: '}}</a>
+                                    <a class="filter" style="text-indent:0px" ng-repeat="aroma in aromeAlese" ng-click="choiceClose($index, aromeAlese)"> {{aroma+','+'&nbsp;'}}</a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                            <button id="specii" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Specie
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="specii">
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Caine',speciiAlese)">Caine</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Pisica',speciiAlese)">Pisica</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Soparla',speciiAlese)">Soparla</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Pasare',speciiAlese)">Pasare</a></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="varsta" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Varsta
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="varsta">
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Junior', varsteAlese)">Junior</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Adult', varsteAlese)">Adult</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Senior', varsteAlese)">Senior</a></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="talie" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Talie
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="talie">
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Mica', taliiAlese)">Mica</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Medie', taliiAlese)">Medie</a></li>
+                                <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Mare', taliiAlese)">Mare</a></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="pret" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Pret
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="pret">
+                                <li role="menuitem"><a class="sidebarA"><50lei</a></li>
+                                <li role="menuitem"><a class="sidebarA">50lei - 100lei</a></li>
+                                <li role="menuitem"><a class="sidebarA">100lei - 200lei</a></li>
+                                <li role="menuitem"><a class="sidebarA">200lei - 500lei</a></li>
+                                <li role="menuitem"><a class="sidebarA">>500lei</a></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="firma" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Firma
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="firma">
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="aroma" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
+                              Aroma
+                            </button>
+                            <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="aroma">
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                <li role="menuitem"><a class="sidebarA">Something else here</a></li>
+                                <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                            </ul>
+                        </div>
+                      </div>
+                </li>
+            </ul>
+        </div>
+        <!-- End Sidebar -->
+
+        <div id="content-wrapper">
+            <div class="page-content">
+
+                <!-- Header Bar -->
+                <div class="row header">
+                    <div class="col-xs-12">
+                        <div class="user pull-right">
+                            <div class="item dropdown" uib-dropdown>
+                                <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                    <img src="img/avatar.jpg">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li class="dropdown-header">
+                                        Ioan Radu Jinga
+                                    </li>
+                                    <li class="dropdown-header">
+                                        331 AA
+                                    </li>
+                                    <li class="dropdown-header">
+                                        jinga.radu@gmail.com
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div class="page">
+                                Petshop
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Header Bar -->
+
+                <!-- Main Content -->
+                <div ui-view></div>
+
+            </div>
+            <!-- End Page Content -->
+        </div>
+        <!-- End Content Wrapper -->
+    </div>
+    <!-- End Page Wrapper -->
+
+</body>
+
+</html>

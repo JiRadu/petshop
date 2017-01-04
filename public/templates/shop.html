@@ -1,0 +1,39 @@
+<div class="row">
+  <h4>Cautarea a intors {{tables.cautare.length}} reuzultate:</h4>
+</div>
+<div class="row">
+    <!-- Produse -->
+    <div ng-repeat="product in tables.cautare" ng-hide="$index < (currentPage-1)*itemsPerPage || $index > (currentPage-1)*itemsPerPage+itemsPerPage" class="col-lg-4 col-md-6 col-xs-12">
+        <rd-widget>
+            <rd-widget-body>
+                <div class="widget-icon blue pull-left">
+                    <i class="fa fa-tags"></i>
+                </div>
+                <div class="title">{{product.Nume}}</div>
+                <div class="title">Pret: {{product.Pret}} lei</div>
+                <div class="comment">Cantitate:
+                  <div class="input-group">
+                    <button type="button" class="btn btn-danger btn-number pull-left" ng-click=minusBucati($index)>
+                      <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <input type="text"  class="form-control input-number" ng-model="nrBucati[$index]">
+                    <button type="button" class="btn btn-success btn-number" ng-click=plusBucati($index)>
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                  </div>
+                </div>
+                <button class="btn btn-default pull-right" ng-click="addToCart($index)">
+                  <i class="fa fa-cart-plus" aria-hidden="true">Adauga la cos</i>
+                </button>
+                <div class="comment">Brand: {{product.Firma}}</div>
+                <div class="comment">Aroma: {{product.Aroma}}</div>
+                <div class="comment">Specie: {{product.Specie}}</div>
+                <div class="comment">Descriere: {{product.Descriere}}</div>
+            </rd-widget-body>
+        </rd-widget>
+    </div>
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <ul uib-pager total-items="tables.clienti.length" ng-model="currentPage">
+      </ul>
+    </div>
+</div>

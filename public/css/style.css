@@ -1,0 +1,6 @@
+body > [uib-modal-window]:not([modal-render]) {
+    display: none;
+}
+.input-number {
+  width: 25%!important;
+}
