@@ -136,13 +136,13 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     ///////////////////////////////////////////////////////
     // Initializare Modale
     ///////////////////////////////////////////////////////
-    $scope.openAddUserModal = function (user) {
+    $scope.openUserModal = function (user) {
      var modalInstance = $uibModal.open({
        animation: true,
        ariaLabelledBy: 'modal-title',
        ariaDescribedBy: 'modal-body',
-       templateUrl: '../templates/addUserModalTemplate.html',
-       controller: 'addUserModalCtrl',
+       templateUrl: '../templates/userModalTemplate.html',
+       controller: 'userModalCtrl',
        controllerAs: '$ctrl',
        size: "lg",
        resolve: {
@@ -153,14 +153,14 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
      });
     };
 
-    $scope.openAddProductModal = function (product) {
+    $scope.openProductModal = function (product) {
       // console.log(product);
      var modalInstance = $uibModal.open({
        animation: true,
        ariaLabelledBy: 'modal-title',
        ariaDescribedBy: 'modal-body',
-       templateUrl: '../templates/addProductModalTemplate.html',
-       controller: 'addProductModalCtrl',
+       templateUrl: '../templates/productModalTemplate.html',
+       controller: 'productModalCtrl',
        controllerAs: '$ctrl',
        size: "lg",
        resolve: {
@@ -169,6 +169,16 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
         }
       }
      });
+       modalInstance.result.then(function (result) {
+         console.log(result);
+        if(result.operation == "add"){
+          $scope.tables.produse.push(result.produs);
+        } else { //if result.operation === edit
+          $scope.tables.produse[result.index] = result.produs;
+        }
+      }, function () {
+        console.log('Operation Canceled');
+      });
     };
     ///////////////////////////////////////////////////////
     // Pentru Shop
@@ -227,7 +237,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     }
 
     $scope.addToCart = function($index){
-      
+
     }
 
     ///////////////////////////////////////////////////////

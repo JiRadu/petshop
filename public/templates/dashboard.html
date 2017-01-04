@@ -10,7 +10,7 @@
 				<div class="title">Produse</div>
 				<div class="comment">
 					<button type="button" class="btn btn-default fa" ng-class="productsExpand" ng-click="collapseProducts()"></button>
-					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openAddProductModal()"> </button>
+					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openProductModal()"> </button>
 				</div>
 				<div class="comment">Numar total pe stoc: {{tables.produse.length}}</div>
 				<div class="comment" style="color:red">In curs de livrare: {{tables.produseInCursDeLivrare.length}}</div>
@@ -30,7 +30,7 @@
 				<div class="title">Clienti</div>
 				<div class="comment">
 					<button type="button" class="btn btn-default fa" ng-class="clientsExpand" ng-click="collapseClients()"></button>
-					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openAddUserModal()">  </button>
+					<button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openUserModal()">  </button>
 				</div>
 				<div class="comment">Numar total: {{tables.clienti.length}}</div>
 				<div class="comment" style="color:red">Cu comenzi neterminate: {{tables.comenzi.length || 2}}</div>
@@ -107,17 +107,17 @@
 							</thead>
 							<tbody ng-repeat="produs in tables.produse">
 								<tr>
-									<td>{{produs.Nume || 'Hopa' }}</td>
-									<td>{{produs.Descriere || 'Hopa'}}</td>
-									<td>{{produs.Specie || 'Hopa'}}</td>
-									<td>{{produs.Talie || 'Hopa'}}</td>
-									<td>{{produs.Varsta || 'Hopa'}}</td>
-									<td>{{produs.Firma || 'Hopa'}}</td>
-									<td>{{produs.Categorie || 'HOPA'}}</td>
-									<td>{{produs.Pret || 'HOPA'}} RON</td>
-									<td>{{produs.Stoc || 'HOPA'}}</td>
+									<td>{{produs.Nume}}</td>
+									<td>{{produs.Descriere}}</td>
+									<td>{{produs.Specie}}</td>
+									<td>{{produs.Talie}}</td>
+									<td>{{produs.Varsta}}</td>
+									<td>{{produs.Firma}}</td>
+									<td>{{produs.Categorie}}</td>
+									<td>{{produs.Pret}} RON</td>
+									<td>{{produs.Stoc}}</td>
 									<td>
-										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openAddProductModal(produs)"></button>
+										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openProductModal({'produs':produs,'index':$index})"></button>
 										<button class="fa fa-times btn btn-danger" ng-click="removeProduct($index,produs.ProdusID)"></button>
 									</td>
 								</tr>
@@ -129,7 +129,7 @@
 	</div>
 
 	<!-- Tabel cu Clienti -->
-	<div id="tabelClienti" class="col-lg-6	 col-md-12 col-xs-12" uib-collapse="clientsAreCollapsed">
+	<div id="tabelClienti" class="col-lg-6 col-md-12 col-xs-12" uib-collapse="clientsAreCollapsed">
 			<rd-widget>
 				<rd-widget-header icon="fa-users" title="Clienti">
 				</rd-widget-header>
@@ -147,14 +147,14 @@
 							</thead>
 							<tbody ng-repeat="user in tables.clienti">
 								<tr>
-									<td>{{user.Nume || 'Jinga Radu'}}</td>
-									<td>{{user.Utilizator || 'jiradu'}}</td>
-									<td>{{user.Email || 'jinga.radu@gmail.com'}}</td>
-									<td>{{user.Adresa || 'O adresa random'}}</td>
-									<td>{{user.Oras || 'Targoviste'}}</td>
-									<td>{{user.Judet || 'Dambovita'}}</td>
+									<td>{{user.Nume}}</td>
+									<td>{{user.Utilizator}}</td>
+									<td>{{user.Email}}</td>
+									<td>{{user.Adresa}}</td>
+									<td>{{user.Oras}}</td>
+									<td>{{user.Judet}}</td>
 									<td>
-										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openAddUserModal(user)"></button>
+										<button type="button" class="fa fa-pencil btn btn-default" ng-click="openUserModal(user)"></button>
 										<button class="fa fa-times btn btn-danger"></button>
 									</td>
 								</tr>
@@ -183,10 +183,10 @@
 							</thead>
 							<tbody ng-repeat="users in tables.clienti">
 								<tr>
-									<td>{{comanda.comandaID || '13242'}}</td>
+									<td>{{comanda.comandaID}}</td>
 									<td>{{users.Nume}}</td>
-									<td>{{adresa.oras || "Targoviste"}}</td>
-									<td>{{comanda.status || "In asteptare"}}</td>
+									<td>{{adresa.oras}}</td>
+									<td>{{comanda.status}}</td>
 									<td>
 										<button class="btn btn-primary">Finalizare</button>
 										<button class="btn btn-danger">Anulare</button>
@@ -216,9 +216,9 @@
 							</thead>
 							<tbody ng-repeat="animal in tables.animale">
 								<tr>
-									<td>{{animal.Nume || 'HOPA' }}</td>
-									<td>{{animal.Talie || 'HOPA'}}</td>
-									<td>{{animal.Varsta || 'HOPA'}}</td>
+									<td>{{animal.Nume }}</td>
+									<td>{{animal.Talie}}</td>
+									<td>{{animal.Varsta}}</td>
 									<td>{{animal.NrProduse}}</td>
 								</tr>
 							</tbody>
