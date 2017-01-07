@@ -1,4 +1,3 @@
-"use strict";
 var orase = [
   { NUME: 'Alba Iulia', JUDET: 'Alba' },
   { NUME: 'Barabant', JUDET: 'Alba' },
@@ -4701,8 +4700,10 @@ var orase = [
   { NUME: 'Mamaia-Sat', JUDET: 'Constanta' },
   { NUME: 'Techirghiol', JUDET: 'Constanta' },
   { NUME: 'Sanatoriul Agigea', JUDET: 'Constanta' },
-  { NUME: 'Statiunea Zoologica Marina Agigea',
-    JUDET: 'Constanta' },
+  {
+    NUME: 'Statiunea Zoologica Marina Agigea',
+    JUDET: 'Constanta'
+  },
   { NUME: 'Lazu', JUDET: 'Constanta' },
   { NUME: '23 August', JUDET: 'Constanta' },
   { NUME: 'Dulcesti', JUDET: 'Constanta' },
@@ -13749,5 +13750,6 @@ var orase = [
   { NUME: 'Popesti Leordeni', JUDET: 'Ilfov' },
   { NUME: 'Voluntari', JUDET: 'Ilfov' },
   { NUME: 'Salta', JUDET: 'Maramures' },
-  { NUME: 'Comasca', JUDET: 'Giurgiu' } ];
+  { NUME: 'Comasca', JUDET: 'Giurgiu' }
+];
 module.exports = orase;

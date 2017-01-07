@@ -1,4 +1,3 @@
-"use strict";
 var judete = [
   'Alba',
   'Arad',
@@ -41,5 +40,6 @@ var judete = [
   'Vaslui',
   'Valcea',
   'Vrancea',
-  'Bucuresti' ]
+  'Bucuresti'
+];
 module.exports = judete;

@@ -1,4 +1,3 @@
-"use strict";
 var mysql = require('mysql');
 var DB = require('../config/database');
 var orase = require('../bigdata/orase.js');
@@ -7,89 +6,89 @@ var rand_no = Math.random();
 var connection;
 var Descrieri = require('../bigdata/descrieri.js');
 module.exports = function createAll() {
-    connection = mysql.createConnection(DB);
-    createDB(connection);
-    createAnimal(connection);
-    insertAnimals(connection);
-    createCategorie(connection);
-    insertCategories(connection);
-    createCategorieAnimal(connection);
-    insertCategorieAnimale(connection);
-    createProdus(connection);
-    createClient(connection);
-    insertClients(connection);
-    createComanda(connection);
-    createProdusComanda(connection);
-    // connection.end();
+  connection = mysql.createConnection(DB);
+  createDB(connection);
+  createAnimal(connection);
+  insertAnimals(connection);
+  createCategorie(connection);
+  insertCategories(connection);
+  createCategorieAnimal(connection);
+  insertCategorieAnimale(connection);
+  createProdus(connection);
+  createClient(connection);
+  insertClients(connection);
+  createComanda(connection);
+  createProdusComanda(connection);
+  // connection.end();
 };
 
 module.exports.createDB = function() {
-    connection = mysql.createConnection(DB);
-    createDB(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createDB(connection);
+  connection.end();
 };
 
 module.exports.createAnimal = function() {
-    connection = mysql.createConnection(DB);
-    createAnimal(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createAnimal(connection);
+  connection.end();
 };
 
 module.exports.createCategorie = function() {
-    connection = mysql.createConnection(DB);
-    createCategorie(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createCategorie(connection);
+  connection.end();
 };
 
 module.exports.insertCategorie = function() {
-    connection = mysql.createConnection(DB);
-    insertCategories(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  insertCategories(connection);
+  connection.end();
 };
 
 module.exports.createCategorieAnimal = function() {
-    connection = mysql.createConnection(DB);
-    createCategorieAnimal(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createCategorieAnimal(connection);
+  connection.end();
 };
 
 module.exports.createProdus = function() {
-    connection = mysql.createConnection(DB);
-    createProdus(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createProdus(connection);
+  connection.end();
 };
 
 module.exports.createClient = function() {
-    connection = mysql.createConnection(DB);
-    createClient(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createClient(connection);
+  connection.end();
 };
 
 module.exports.insertClients = function() {
-    connection = mysql.createConnection(DB);
-    insertClients(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  insertClients(connection);
+  connection.end();
 };
 
 module.exports.createComanda = function() {
-    connection = mysql.createConnection(DB);
-    createComanda(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createComanda(connection);
+  connection.end();
 };
 
 module.exports.createProdusComanda = function() {
-    connection = mysql.createConnection(DB);
-    createProdusComanda(connection);
-    connection.end();
+  connection = mysql.createConnection(DB);
+  createProdusComanda(connection);
+  connection.end();
 };
 
 function createDB(connection) {
-    connection.query('CREATE DATABASE IF NOT EXISTS `petshop`');
-    console.log('Success creating Database');
+  connection.query('CREATE DATABASE IF NOT EXISTS `petshop`');
+  console.log('Success creating Database');
 }
 
 function createAnimal(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`Animal`( \
       `AnimalID` INT NOT NULL AUTO_INCREMENT, \
       `Nume` VARCHAR(255) NOT NULL, \
@@ -99,26 +98,26 @@ function createAnimal(connection) {
       UNIQUE INDEX `AnimalID_UNIQUE` (`AnimalID` ASC), \
       UNIQUE KEY `Animal_Unique` (`Nume`,`Varsta`,`Talie` ASC)\
   )');
-    console.log("Success creating Animal");
+  console.log("Success creating Animal");
 }
 
 function insertAnimals(connection) {
-    connection.query('SET FOREIGN_KEY_CHECKS = 0;');
-    connection.query('TRUNCATE Animal;');
-    connection.query('SET FOREIGN_KEY_CHECKS = 1;');
-    animale.numeAnimale.forEach(function(animal) {
-        animale.talieAnimale.forEach(function(talie) {
-            animale.varsteAnimale.forEach(function(varsta) {
-                connection.query('\
+  connection.query('SET FOREIGN_KEY_CHECKS = 0;');
+  connection.query('TRUNCATE Animal;');
+  connection.query('SET FOREIGN_KEY_CHECKS = 1;');
+  animale.numeAnimale.forEach(function(animal) {
+    animale.talieAnimale.forEach(function(talie) {
+      animale.varsteAnimale.forEach(function(varsta) {
+        connection.query('\
           INSERT IGNORE INTO petshop.Animal( Nume, Varsta, Talie ) VALUES ("' + animal + '", "' + varsta + '", "' + talie + '");');
-            });
-        });
+      });
     });
-    console.log("Success inserting into Animals");
+  });
+  console.log("Success inserting into Animals");
 }
 
 function createCategorie(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`Categorie`( \
       `CategorieID` INT NOT NULL AUTO_INCREMENT, \
       `Nume` VARCHAR(255) NOT NULL, \
@@ -126,21 +125,21 @@ function createCategorie(connection) {
       PRIMARY KEY(`CategorieID`), \
       UNIQUE INDEX `CategorieID_UNIQUE` (`CategorieID` ASC) \
   )');
-    console.log("Success creating Categorie");
+  console.log("Success creating Categorie");
 }
 
 function insertCategories(connection) {
-    connection.query('SET FOREIGN_KEY_CHECKS = 0;');
-    connection.query('TRUNCATE Categorie;');
-    connection.query('SET FOREIGN_KEY_CHECKS = 1;');
-    console.log(Descrieri.hranaUmeda);
-    connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Umeda", "' + Descrieri.hranaUmeda + '");');
-    connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Uscata", "' + Descrieri.hranaUscata + '");');
-    console.log("Success inserting into Categorie");
+  connection.query('SET FOREIGN_KEY_CHECKS = 0;');
+  connection.query('TRUNCATE Categorie;');
+  connection.query('SET FOREIGN_KEY_CHECKS = 1;');
+  console.log(Descrieri.hranaUmeda);
+  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Umeda", "' + Descrieri.hranaUmeda + '");');
+  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Uscata", "' + Descrieri.hranaUscata + '");');
+  console.log("Success inserting into Categorie");
 }
 
 function createCategorieAnimal(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`CategorieAnimal`( \
       `CategorieID` INT NOT NULL, \
       `AnimalID` INT NOT NULL, \
@@ -148,32 +147,32 @@ function createCategorieAnimal(connection) {
       FOREIGN KEY(`CategorieID`) REFERENCES Categorie(`CategorieID`),  \
       FOREIGN KEY(`AnimalID`) REFERENCES Animal(`AnimalID`)  \
   )');
-    console.log("Success creating CategorieAnimal");
+  console.log("Success creating CategorieAnimal");
 }
 
 function insertCategorieAnimale(connection) {
-    connection.query('SELECT AnimalID from Animal', function(err, rows) {
-        if (!err) {
-            rows.forEach(function(Animal) {
-                connection.query('SELECT CategorieID from Categorie', function(err, result) {
-                    if (!err) {
-                        result.forEach(function(Categorie) {
-                            connection.query('INSERT IGNORE INTO `petshop`.`CategorieAnimal`(CategorieID, AnimalID) VALUES ('+Categorie.CategorieID+', '+Animal.AnimalID+')');
-                        });
-                    } else{
-                      console.log(err);
-                    }
-                });
+  connection.query('SELECT AnimalID from Animal', function(err, rows) {
+    if (!err) {
+      rows.forEach(function(Animal) {
+        connection.query('SELECT CategorieID from Categorie', function(err, result) {
+          if (!err) {
+            result.forEach(function(Categorie) {
+              connection.query('INSERT IGNORE INTO `petshop`.`CategorieAnimal`(CategorieID, AnimalID) VALUES (' + Categorie.CategorieID + ', ' + Animal.AnimalID + ')');
             });
-        } else {
-          console.log(err);
-        }
-    });
-    console.log("Success inserting into Animals");
+          } else {
+            console.log(err);
+          }
+        });
+      });
+    } else {
+      console.log(err);
+    }
+  });
+  console.log("Success inserting into Animals");
 }
 
 function createProdus(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`Produs` ( \
       `ProdusID` INT NOT NULL AUTO_INCREMENT, \
       `Nume` VARCHAR(255) NOT NULL, \
@@ -190,11 +189,11 @@ function createProdus(connection) {
       FOREIGN KEY(`AnimalID`) REFERENCES CategorieAnimal(`AnimalID`), \
       UNIQUE INDEX `ProdusID_UNIQUE` (`ProdusID` ASC) \
   )');
-    console.log("Success creating Produs");
+  console.log("Success creating Produs");
 }
 
 function createClient(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`Client` ( \
       `ClientID` INT NOT NULL AUTO_INCREMENT, \
       `Nume` VARCHAR(255) NOT NULL, \
@@ -209,7 +208,7 @@ function createClient(connection) {
       UNIQUE INDEX `Email_UNIQUE` (`Email` ASC), \
       UNIQUE INDEX `Username_UNIQUE` (`Utilizator` ASC) \
   )');
-    console.log('Success creating Client');
+  console.log('Success creating Client');
 }
 
 //Insereaza 100 de clienti Random
@@ -222,7 +221,7 @@ function insertClients(connection) {
 };
 
 function createComanda(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`Comanda` ( \
       `ComandaID` INT NOT NULL AUTO_INCREMENT, \
       `ClientID` INT NOT NULL, \
@@ -232,11 +231,11 @@ function createComanda(connection) {
       FOREIGN KEY(`ClientID`) REFERENCES Client(`ClientID`), \
       UNIQUE INDEX `ComandaID_UNIQUE` (`ComandaID` ASC) \
   )');
-    console.log('Success creating Comanda!');
+  console.log('Success creating Comanda!');
 }
 
 function createProdusComanda(connection) {
-    connection.query('\
+  connection.query('\
   CREATE TABLE IF NOT EXISTS `petshop`.`ProdusComanda` ( \
       `ProdusID` INT NOT NULL , \
       `ComandaID` INT NOT NULL , \
@@ -245,5 +244,5 @@ function createProdusComanda(connection) {
       FOREIGN KEY(`ProdusID`) REFERENCES Produs(`ProdusID`), \
       FOREIGN KEY(`ComandaID`) REFERENCES Comanda(`ComandaID`) \
   )');
-    console.log("Success creating ProdusComanda");
+  console.log("Success creating ProdusComanda");
 }
