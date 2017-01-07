@@ -7,7 +7,7 @@ orase.forEach(function(oras) {
     if (oras.JUDET == judet)
       exists = 1;
   });
-  if (exists == 0) {
+  if (exists === 0) {
     judete.push(oras.JUDET);
   }
 });
