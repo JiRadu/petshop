@@ -1,14 +1,9 @@
 {
-  "name": "rdash-angular",
-  "version": "0.0.1",
-  "description": "An AngularJS implementation of the responsive dashboard",
-  "homepage": "https://github.com/Ehesp/Responsive-Dashboard",
+  "name": "petshop",
+  "version": "0.1.0",
+  "description": "A project for the DB course",
   "authors": [
-    "Elliot Hesp <elliot.hesp@gmail.com>"
-  ],
-  "contributors": [
-    "Ricardo Pascua Jr <rdpascua@outlook.com>",
-    "Leonel Samayoa <leonel.e.samayoa@gmail.com>"
+    "Radu Jinga <jinga.radu@gmail.com>"
   ],
   "main": "index.html",
   "license": "MIT",
@@ -16,8 +11,6 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
   ],
   "dependencies": {
     "rdash-ui": "1.0.*",
@@ -29,9 +22,5 @@
     "font-awesome": "~4.5.0",
     "jquery": "^3.1.1",
     "angular-animate": "~1.5.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rdash/rdash-angular"
   }
 }

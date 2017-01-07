@@ -232,7 +232,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   };
 
   $scope.addToCart = function($index) {
-
+    // TODO: make addToCart function
   };
 
   ///////////////////////////////////////////////////////

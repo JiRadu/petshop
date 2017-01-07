@@ -22,66 +22,6 @@ module.exports = function createAll() {
   // connection.end();
 };
 
-module.exports.createDB = function() {
-  connection = mysql.createConnection(DB);
-  createDB(connection);
-  connection.end();
-};
-
-module.exports.createAnimal = function() {
-  connection = mysql.createConnection(DB);
-  createAnimal(connection);
-  connection.end();
-};
-
-module.exports.createCategorie = function() {
-  connection = mysql.createConnection(DB);
-  createCategorie(connection);
-  connection.end();
-};
-
-module.exports.insertCategorie = function() {
-  connection = mysql.createConnection(DB);
-  insertCategories(connection);
-  connection.end();
-};
-
-module.exports.createCategorieAnimal = function() {
-  connection = mysql.createConnection(DB);
-  createCategorieAnimal(connection);
-  connection.end();
-};
-
-module.exports.createProdus = function() {
-  connection = mysql.createConnection(DB);
-  createProdus(connection);
-  connection.end();
-};
-
-module.exports.createClient = function() {
-  connection = mysql.createConnection(DB);
-  createClient(connection);
-  connection.end();
-};
-
-module.exports.insertClients = function() {
-  connection = mysql.createConnection(DB);
-  insertClients(connection);
-  connection.end();
-};
-
-module.exports.createComanda = function() {
-  connection = mysql.createConnection(DB);
-  createComanda(connection);
-  connection.end();
-};
-
-module.exports.createProdusComanda = function() {
-  connection = mysql.createConnection(DB);
-  createProdusComanda(connection);
-  connection.end();
-};
-
 function createDB(connection) {
   connection.query('CREATE DATABASE IF NOT EXISTS `petshop`');
   console.log('Success creating Database');
@@ -109,7 +49,8 @@ function insertAnimals(connection) {
     animale.talieAnimale.forEach(function(talie) {
       animale.varsteAnimale.forEach(function(varsta) {
         connection.query('\
-          INSERT IGNORE INTO petshop.Animal( Nume, Varsta, Talie ) VALUES ("' + animal + '", "' + varsta + '", "' + talie + '");');
+          INSERT IGNORE INTO petshop.Animal( Nume, Varsta, Talie )\
+           VALUES ("' + animal + '", "' + varsta + '", "' + talie + '");');
       });
     });
   });
@@ -133,8 +74,10 @@ function insertCategories(connection) {
   connection.query('TRUNCATE Categorie;');
   connection.query('SET FOREIGN_KEY_CHECKS = 1;');
   console.log(Descrieri.hranaUmeda);
-  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Umeda", "' + Descrieri.hranaUmeda + '");');
-  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES ("Hrana Uscata", "' + Descrieri.hranaUscata + '");');
+  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES\
+      ("Hrana Umeda", "' + Descrieri.hranaUmeda + '");');
+  connection.query('INSERT IGNORE INTO petshop.Categorie(Nume, Descriere) VALUES\
+      ("Hrana Uscata", "' + Descrieri.hranaUscata + '");');
   console.log("Success inserting into Categorie");
 }
 
@@ -157,7 +100,9 @@ function insertCategorieAnimale(connection) {
         connection.query('SELECT CategorieID from Categorie', function(err, result) {
           if (!err) {
             result.forEach(function(Categorie) {
-              connection.query('INSERT IGNORE INTO `petshop`.`CategorieAnimal`(CategorieID, AnimalID) VALUES (' + Categorie.CategorieID + ', ' + Animal.AnimalID + ')');
+              connection.query('INSERT IGNORE INTO `petshop`.`CategorieAnimal`\
+              (CategorieID, AnimalID) VALUES (' + Categorie.CategorieID + ', \
+              ' + Animal.AnimalID + ')');
             });
           } else {
             console.log(err);
@@ -215,7 +160,11 @@ function createClient(connection) {
 function insertClients(connection) {
   for (var i = 1; i < 100; i++) {
     var rand_no = Math.random();
-    connection.query("INSERT IGNORE INTO `petshop`.`Client`(Nume, Utilizator, Parola, Email, Adresa, Oras, Judet) VALUES('Nume" + i + "','aleat" + i + "','parola','" + i + "@gmail.com','Strada x, Nr y','" + orase[(parseInt(rand_no * 13749) % orase.length)].NUME + "','" + orase[(parseInt(rand_no * 13749) % orase.length)].JUDET + "')");
+    connection.query("INSERT IGNORE INTO `petshop`.`Client`(Nume, Utilizator, \
+      Parola, Email, Adresa, Oras, Judet) VALUES('Nume" + i + "','aleat\
+      " + i + "','parola','" + i + "@gmail.com','Strada x, Nr y','\
+      " + orase[(parseInt(rand_no * 13749) % orase.length)].NUME + "','\
+      " + orase[(parseInt(rand_no * 13749) % orase.length)].JUDET + "')");
   }
   console.log("Success inserting 100 Clients");
 };
