@@ -2,7 +2,7 @@ var connection = require('../config/database.js');
 var orase = require('../bigdata/orase.js');
 var rand_no = Math.random();
 
-function insertClientsIntoDatabase(connection) {
+(function insertClientsIntoDatabase(connection) {
   for (var i = 1; i < 100; i++) {
     var rand_no = Math.random();
     //Insereaza 100 de clienti Random
@@ -10,5 +10,4 @@ function insertClientsIntoDatabase(connection) {
     console.log("Success inserting 100 Clients");
   }
   return 0;
-}
-insertIntoDatabase(connection);
+})();
