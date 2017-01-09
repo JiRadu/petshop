@@ -1,10 +1,9 @@
 angular.module('petShopApp')
-  .controller('MasterCtrl', ['$scope', '$cookieStore', '$http', '$uibModal', '$rootScope', '$location', '$anchorScroll', MasterCtrl]);
+  .controller('MasterCtrl', ['$scope', '$cookieStore', '$http', '$uibModal',
+    '$rootScope', '$location', '$anchorScroll', MasterCtrl
+  ]);
 
 function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $location, anchorScroll) {
-
-
-
   ///////////////////////////////////////////////////////
   // Initializare la butoane din Widgets
   ///////////////////////////////////////////////////////
@@ -150,7 +149,6 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   };
 
   $scope.openProductModal = function(product) {
-    // console.log(product);
     var modalInstance = $uibModal.open({
       animation: true,
       ariaLabelledBy: 'modal-title',
@@ -166,11 +164,12 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       }
     });
     modalInstance.result.then(function(result) {
-      console.log(result);
       if (result.operation == "add") {
         $scope.tables.produse.push(result.produs);
+        $scope.cautare();
       } else { //if result.operation === edit
         $scope.tables.produse[result.index] = result.produs;
+        $scope.cautare();
       }
     }, function() {
       console.log('Operation Canceled');
@@ -180,27 +179,155 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   // Pentru Shop
   ///////////////////////////////////////////////////////
 
+  $scope.filtre = {
+    specii: [],
+    arome: [],
+    firme: [],
+    talii: [],
+    varste: []
+  };
+
   $scope.speciiAlese = [];
-  $scope.varsteAlese = [];
   $scope.taliiAlese = [];
-  $scope.preturiAlese = [];
   $scope.firmeAlese = [];
   $scope.aromeAlese = [];
-
+  $scope.varsteAlese = [];
+  var validProduct = false;
+  var index;
   $scope.cautare = function() {
-    if ($scope.speciiAlese.length || $scope.varsteAlese.length || $scope.taliiAlese.length || $scope.preturiAlese.length || $scope.firmeAlese.length || $scope.aromeAlese.length) {
-      $scope.tables.cautare = [];
-    } else {
-      $http.get('/produsePentruVizualizat')
-        .then(function success(response) {
-          $scope.tables.cautare = response.data;
-          $scope.nrBucati = [];
-          for (i = 0; i < $scope.tables.cautare.length; i++) {
-            $scope.nrBucati[i] = 1;
-          }
-        }, function error(response) {});
-    }
+    $http.get('/produsePentruVizualizat')
+      .then(function success(response) {
+        $scope.tables.cautare = response.data;
+        $http.get('/produsePentruVizualizat')
+          .then(function success(response) {
+            var cautare = response.data;
+            $scope.nrBucati = [];
+            if ($scope.speciiAlese.length) {
+              cautare.forEach(function(produs) {
+                $scope.speciiAlese.forEach(function(specieAleasa) {
+                  if (produs.Specie === specieAleasa) {
+                    validProduct = true;
+                  }
+                });
+                if (validProduct === false) {
+                  removeElement(produs);
+                }
+                validProduct = false;
+              });
+            }
+            if ($scope.varsteAlese.length) {
+              cautare.forEach(function(produs) {
+                $scope.varsteAlese.forEach(function(varstaAleasa) {
+                  if (produs.Varsta === varstaAleasa) {
+                    validProduct = true;
+                  }
+                });
+                if (validProduct === false) {
+                  removeElement(produs);
+                }
+                validProduct = false;
+              });
+            }
+            if ($scope.taliiAlese.length) {
+              cautare.forEach(function(produs) {
+                $scope.taliiAlese.forEach(function(talieAleasa) {
+                  if (produs.Talie === talieAleasa) {
+                    validProduct = true;
+                  }
+                });
+                if (validProduct === false) {
+                  removeElement(produs);
+                }
+                validProduct = false;
+              });
+            }
+            if ($scope.firmeAlese.length) {
+              cautare.forEach(function(produs) {
+                $scope.firmeAlese.forEach(function(firmaAleasa) {
+                  if (produs.Firma === firmaAleasa) {
+                    validProduct = true;
+                  }
+                });
+                if (validProduct === false) {
+                  removeElement(produs);
+                }
+                validProduct = false;
+              });
+            }
+            if ($scope.aromeAlese.length) {
+              cautare.forEach(function(produs) {
+                $scope.aromeAlese.forEach(function(aromaAleasa) {
+                  if (produs.Aroma === aromaAleasa) {
+                    validProduct = true;
+                  }
+                });
+                if (validProduct === false) {
+                  removeElement(produs);
+                }
+                validProduct = false;
+              });
+            }
+            for (i = 0; i < $scope.tables.cautare.length; i++) {
+              $scope.nrBucati[i] = 1;
+            }
+            ///REINITIALIZARE OPTIUNI
+            $http.get('/arome')
+              .then(function success(response) {
+                var arome = response.data;
+                $http.get('/firme')
+                  .then(function success(response) {
+                    var firme = response.data;
+                    $http.get('/talii')
+                      .then(function success(response) {
+                        var talii = response.data;
+                        $http.get('/varste')
+                          .then(function success(response) {
+                            var varste = response.data;
+                            $http.get('/specii')
+                              .then(function success(response) {
+                                var specii = response.data;
+                                afisareFiltru(specii, 'Nume', 'Specie', $scope.filtre.specii);
+                                afisareFiltru(varste, 'Varsta', 'Varsta', $scope.filtre.varste);
+                                afisareFiltru(talii, 'Talie', 'Talie', $scope.filtre.talii);
+                                afisareFiltru(firme, 'Firma', 'Firma', $scope.filtre.firme);
+                                afisareFiltru(arome, 'Aroma', 'Aroma', $scope.filtre.arome);
+                              }, function error(response) {});
+                          }, function error(response) {});
+                      }, function error(response) {});
+                  }, function error(response) {});
+              }, function error(response) {});
+          }, function error(response) {});
+      }, function error(response) {});
   };
+
+  function removeElement(produs) {
+    $scope.tables.cautare.forEach(function(produsInitial) {
+      if (produsInitial.ProdusID === produs.ProdusID) {
+        index = $scope.tables.cautare.indexOf(produsInitial);
+      }
+    });
+    $scope.tables.cautare.splice(index, 1);
+  }
+  var optiuneValida = true;
+  //TODO: denumiri de variabile mai explicite
+  function afisareFiltru(optiune, campDeCautat, campCautat, arrayFinal) {
+    $scope.tables.cautare.forEach(function(produs) {
+      optiune.forEach(function(element) {
+        if (element[campDeCautat] === produs[campCautat]) {
+          arrayFinal.forEach(function(optiune) {
+            if (optiune[campDeCautat] === element[campDeCautat]) {
+              optiuneValida = false;
+            }
+          });
+          if (optiuneValida === true) {
+            arrayFinal.push(element);
+          }
+          optiuneValida = true;
+        }
+      });
+    });
+  }
+
   $scope.cautare();
 
   $scope.choiceClose = function(index, array) {

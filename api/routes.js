@@ -58,6 +58,16 @@ app.get('/varste', function(req, res) {
     res.send(rows);
   });
 });
+app.get('/arome', function(req, res) {
+  connection.query("SELECT Aroma FROM `petshop`.`Produs` GROUP BY Aroma", function(err, rows) {
+    res.send(rows);
+  });
+});
+app.get('/firme', function(req, res) {
+  connection.query("SELECT Firma FROM `petshop`.`Produs` GROUP BY Firma", function(err, rows) {
+    res.send(rows);
+  });
+});
 app.post('/adaugaProdus', function(req, res) {
   var Produs = req.body;
   connection.query("SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '" + Produs.Categorie + "';", function(err, done) {

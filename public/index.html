@@ -87,14 +87,6 @@
                                     <tr>
                                         <td>
                                             <div style="width:150px">
-                                                <a class="text" style="text-indent:0px;color:yellow" ng-show="preturiAlese.length != 0">{{'Pret: '}}</a>
-                                                <a class="filter" style="text-indent:0px" ng-repeat="pret in preturiAlese" ng-click="choiceClose($index, preturiAlese)"> {{pret+','+'&nbsp;'}}</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div style="width:150px">
                                                 <a class="text" style="text-indent:0px;color:yellow" ng-show="firmeAlese.length != 0">{{'Firma: '}}</a>
                                                 <a class="filter" style="text-indent:0px" ng-repeat="firma in firmeAlese" ng-click="choiceClose($index, firmeAlese)"> {{firma+','+'&nbsp;'}}</a>
                                             </div>
@@ -112,12 +104,8 @@
                                 <button id="specii" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
                               Specie
                             </button>
-                                <!-- TODO: make options consistent with the DB -->
                                 <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="specii">
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Caine',speciiAlese)">Caine</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Pisica',speciiAlese)">Pisica</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Soparla',speciiAlese)">Soparla</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Pasare',speciiAlese)">Pasare</a></li>
+                                    <li role="menuitem" ng-repeat="specie in filtre.specii"><a class="sidebarA" ng-click="choiceAdd(specie.Nume, speciiAlese)">{{specie.Nume}}</a></li>
                                 </ul>
                             </div>
                             <br>
@@ -126,9 +114,7 @@
                               Varsta
                             </button>
                                 <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="varsta">
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Junior', varsteAlese)">Junior</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Adult', varsteAlese)">Adult</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Senior', varsteAlese)">Senior</a></li>
+                                    <li role="menuitem" ng-repeat="varsta in filtre.varste"><a class="sidebarA" ng-click="choiceAdd(varsta.Varsta, varsteAlese)">{{varsta.Varsta}}</a></li>
                                 </ul>
                             </div>
                             <br>
@@ -137,25 +123,7 @@
                               Talie
                             </button>
                                 <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="talie">
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Mica', taliiAlese)">Mica</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Medie', taliiAlese)">Medie</a></li>
-                                    <li role="menuitem"><a class="sidebarA" ng-click="choiceAdd('Mare', taliiAlese)">Mare</a></li>
-                                </ul>
-                            </div>
-                            <br>
-                            <div class="btn-group" uib-dropdown>
-                                <button id="pret" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:150px;color:#b2bfdc">
-                              Pret
-                            </button>
-                                <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="pret">
-                                    <li role="menuitem">
-                                        <a class="sidebarA">
-                                            <50lei</a>
-                                    </li>
-                                    <li role="menuitem"><a class="sidebarA">50lei - 100lei</a></li>
-                                    <li role="menuitem"><a class="sidebarA">100lei - 200lei</a></li>
-                                    <li role="menuitem"><a class="sidebarA">200lei - 500lei</a></li>
-                                    <li role="menuitem"><a class="sidebarA">>500lei</a></li>
+                                    <li role="menuitem" ng-repeat="talie in filtre.talii"><a class="sidebarA" ng-click="choiceAdd(talie.Talie, taliiAlese)">{{talie.Talie}}</a></li>
                                 </ul>
                             </div>
                             <br>
@@ -164,12 +132,7 @@
                               Firma
                             </button>
                                 <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="firma">
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                    <li role="menuitem" ng-repeat="firma in filtre.firme"><a class="sidebarA" ng-click="choiceAdd(firma.Firma,firmeAlese)">{{firma.Firma}}</a></li>
                                 </ul>
                             </div>
                             <br>
@@ -178,12 +141,7 @@
                               Aroma
                             </button>
                                 <ul style="background:#30426a" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="aroma">
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Something else here</a></li>
-                                    <li role="menuitem"><a class="sidebarA">Separated link</a></li>
+                                    <li role="menuitem" ng-repeat="aroma in filtre.arome"><a class="sidebarA" ng-click="choiceAdd(aroma.Aroma,aromeAlese)">{{aroma.Aroma}}</a></li>
                                 </ul>
                             </div>
                         </div>
