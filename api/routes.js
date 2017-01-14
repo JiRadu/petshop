@@ -3,7 +3,8 @@ var DB = require('./config/database');
 var connection = mysql.createConnection(DB);
 var express = require('express');
 var app = express();
-
+var orase = require('./bigdata/orase.js');
+var judete = require('./bigdata/judete.js');
 app.get('/clienti', function(req, res) {
   connection.query("SELECT * FROM `petshop`.`Client`", function(err, rows) {
     res.send(rows);
@@ -23,6 +24,15 @@ app.post('/stergeProdus', function(req, res) {
   connection.query("DELETE FROM `petshop`.`Produs` WHERE ProdusID = '" + req.body.productID + "'", function(err, rows) {
     if (!err) {
       res.send('OK');
+    }
+  });
+});
+app.post('/stergeClient', function(req, res) {
+  connection.query("DELETE FROM `petshop`.`Client` WHERE ClientID = '" + req.body.clientID + "'", function(err, rows) {
+    if (!err) {
+      res.send('OK');
+    } else {
+      res.send(err);
     }
   });
 });
@@ -68,6 +78,14 @@ app.get('/firme', function(req, res) {
     res.send(rows);
   });
 });
+app.post('/orase', function(req, res) {
+  var judet = req.body;
+  res.send(orase);
+});
+app.post('/judete', function(req, res) {
+  var oras = req.body;
+  res.send(judete);
+});
 app.post('/adaugaProdus', function(req, res) {
   var Produs = req.body;
   connection.query("SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '" + Produs.Categorie + "';", function(err, done) {
@@ -84,6 +102,31 @@ app.post('/adaugaProdus', function(req, res) {
           });
         }
       });
+    } else {
+      console.log(err);
+    }
+  });
+});
+app.post('/adaugaClient', function(req, res) {
+  var Client = req.body;
+  connection.query("INSERT INTO `petshop`.`Client` (Nume, Utilizator, Parola, Email, Adresa, Oras, Judet) \
+					 VALUES ('" + Client.Nume + "', '" + Client.Utilizator + "', '" + Client.Parola + "', '" + Client.Email + "','" + Client.Adresa + "','" + Client.Oras + "','" + Client.Judet + "');", function(err, done) {
+    if (!err) {
+      res.send("OK");
+    } else {
+      console.log(err);
+    }
+  });
+});
+app.post('/editeazaClient', function(req, res) {
+  var Client = req.body;
+  connection.query("UPDATE petshop.Client SET Nume = '" + Client.Nume + "', \
+                  Utilizator = '" + Client.Utilizator + "', Parola = '" + Client.Parola + "',\
+                  Email = '" + Client.Email + "', Adresa =  '" + Client.Adresa + "',\
+                  Oras = '" + Client.Oras + "', Judet = '" + Client.Judet + "'\
+                  WHERE ClientID = " + Client.ClientID + ";", function(err, done) {
+    if (!err) {
+      res.send("OK");
     } else {
       console.log(err);
     }

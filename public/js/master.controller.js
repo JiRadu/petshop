@@ -105,11 +105,19 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       // console.log($scope.tables.produse);
     }, function error(response) {});
 
-  $scope.removeProduct = function($index, productID) {
-    $http.post('/stergeProdus', { 'productID': productID })
+  $scope.removeProduct = function(index, productID) {
+    $http.post('/stergeProdus', { productID: productID })
       .then(function success(response) {
-        $scope.tables.produse.splice($index, 1);
+        $scope.tables.produse.splice(index, 1);
       }, function error(response) {});
+  };
+  $scope.removeClient = function(index, clientID) {
+    $http.post('/stergeClient', { clientID: clientID })
+      .then(function success(response) {
+        $scope.tables.clienti.splice(index, 1);
+      }, function error(response) {
+        console.log(response);
+      });
   };
 
 
@@ -131,7 +139,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   ///////////////////////////////////////////////////////
   // Initializare Modale
   ///////////////////////////////////////////////////////
-  $scope.openUserModal = function(user) {
+  $scope.openUserModal = function(Client) {
     var modalInstance = $uibModal.open({
       animation: true,
       ariaLabelledBy: 'modal-title',
@@ -142,9 +150,18 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       size: "lg",
       resolve: {
         items: function() {
-          return user;
+          return Client;
         }
       }
+    });
+    modalInstance.result.then(function(result) {
+      if (result.operation == "add") {
+        $scope.tables.clienti.push(result.client);
+      } else { //if result.operation === edit
+        $scope.tables.clienti[result.index] = result.client;
+      }
+    }, function() {
+      console.log('Operation Canceled');
     });
   };
 

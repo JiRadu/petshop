@@ -1,17 +1,38 @@
 angular.module('petShopApp')
-  .controller('userModalCtrl', function($uibModalInstance, items, $http) {
-
+  .controller('userModalCtrl', function($uibModalInstance, items, $http, $timeout) {
     var self = this;
+    self.Client = {};
+    self.tables = {};
+    self.orase = [{ nume: "Vaslui" }, { nume: "targoviste" }];
+    // self.judete = [{ nume: "masd" }, { nume: "dambovita" }];
+    self.title = items ? "Editeaza datele unui client" : "Adauga un client nou";
+    if (items) {
+      angular.copy(items.client, self.Client);
+    }
 
     self.ok = function() {
-      $uibModalInstance.close('');
+      if (items) {
+        $http.post('/editeazaClient', self.Client)
+          .then(function success(response) {
+            $uibModalInstance.close({ client: self.Client, operation: 'edit', index: items.index });
+          }, function error(err) {
+            console.log(err);
+          });
+      } else {
+        $http.post('/adaugaClient', self.Client)
+          .then(function success(response) {
+            $uibModalInstance.close({ client: self.Client, operation: 'add' });
+          }, function error(err) {
+            console.log(err);
+          });
+      }
     };
 
     self.cancel = function() {
       $uibModalInstance.dismiss('cancel');
+      console.log('cancel');
     };
 
-    self.title = items ? "Editeaza datele unui client" : "Adauga un client nou";
 
   })
   .controller('productModalCtrl', function($uibModalInstance, items, $http, $location) {
@@ -23,7 +44,6 @@ angular.module('petShopApp')
     //////////////////////////////
     self.title = items ? "Editeaza un produs" : "Adauga un produs nou";
     if (items) {
-      console.log(items.index);
       angular.copy(items.produs, self.Produs);
     }
     $http.get('/categorii')

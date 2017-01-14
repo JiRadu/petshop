@@ -117,7 +117,7 @@
                                 <td>{{produs.Pret}} RON</td>
                                 <td>{{produs.Stoc}}</td>
                                 <td>
-                                    <button type="button" class="fa fa-pencil btn btn-default" ng-click="openProductModal({'produs':produs,'index':$index})"></button>
+                                    <button type="button" class="fa fa-pencil btn btn-default" ng-click="openProductModal({produs:produs,index:$index})"></button>
                                     <button class="fa fa-times btn btn-danger" ng-click="removeProduct($index,produs.ProdusID)"></button>
                                 </td>
                             </tr>
@@ -145,17 +145,17 @@
                             <td>Judet</td>
                             <td>Gestioneaza</td>
                         </thead>
-                        <tbody ng-repeat="user in tables.clienti">
+                        <tbody ng-repeat="client in tables.clienti">
                             <tr>
-                                <td>{{user.Nume}}</td>
-                                <td>{{user.Utilizator}}</td>
-                                <td>{{user.Email}}</td>
-                                <td>{{user.Adresa}}</td>
-                                <td>{{user.Oras}}</td>
-                                <td>{{user.Judet}}</td>
+                                <td>{{client.Nume}}</td>
+                                <td>{{client.Utilizator}}</td>
+                                <td>{{client.Email}}</td>
+                                <td>{{client.Adresa}}</td>
+                                <td>{{client.Oras}}</td>
+                                <td>{{client.Judet}}</td>
                                 <td>
-                                    <button type="button" class="fa fa-pencil btn btn-default" ng-click="openUserModal(user)"></button>
-                                    <button class="fa fa-times btn btn-danger"></button>
+                                    <button type="button" class="fa fa-pencil btn btn-default" ng-click="openUserModal({client: client, index:$index})"></button>
+                                    <button class="fa fa-times btn btn-danger" ng-click="removeClient($index,client.ClientID)"></button>
                                 </td>
                             </tr>
                         </tbody>
