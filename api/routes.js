@@ -3,8 +3,6 @@ var DB = require('./config/database');
 var connection = mysql.createConnection(DB);
 var express = require('express');
 var app = express();
-var orase = require('./bigdata/orase.js');
-var judete = require('./bigdata/judete.js');
 app.get('/clienti', function(req, res) {
   connection.query("SELECT * FROM `petshop`.`Client`", function(err, rows) {
     res.send(rows);
@@ -88,22 +86,18 @@ app.post('/judete', function(req, res) {
 });
 app.post('/adaugaProdus', function(req, res) {
   var Produs = req.body;
-  connection.query("SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '" + Produs.Categorie + "';", function(err, done) {
+  connection.query("INSERT INTO `petshop`.`Produs` (Nume, Descriere, Pret, \
+                  DataAparitie, Stoc, CategorieID, AnimalID, Firma, Aroma ) \
+					        VALUES ('" + Produs.Nume + "', '" + Produs.Descriere + "', '\
+                  " + Produs.Pret + "',CURDATE(), '" + Produs.Stoc + "','" + "\
+                  (SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '\
+                  " + Produs.Categorie + "')" + "','" + "(SELECT AnimalID from \
+                  `petshop`.`Animal` WHERE Nume = '" + Produs.Specie + "'AND\
+                  Talie='" + Produs.Talie + "' AND Varsta = '" + Produs.Varsta + "\
+                  ')" + "','" + Produs.Firma + "','" + Produs.Aroma + "');\
+                  ", function(err, done) {
     if (!err) {
-      var categorieID = done[0].CategorieID;
-      connection.query("SELECT AnimalID from `petshop`.`Animal` WHERE Nume = '" + Produs.Specie + "'AND Talie='" + Produs.Talie + "' AND Varsta = '" + Produs.Varsta + "';", function(err, done) {
-        if (!err) {
-          var animalID = done[0].AnimalID;
-          connection.query("INSERT INTO `petshop`.`Produs` (Nume, Descriere, Pret, DataAparitie, Stoc, CategorieID, AnimalID, Firma, Aroma ) \
-					 VALUES ('" + Produs.Nume + "', '" + Produs.Descriere + "', '" + Produs.Pret + "',CURDATE(), '" + Produs.Stoc + "','" + categorieID + "','" + animalID + "','" + Produs.Firma + "','" + Produs.Aroma + "');", function(err, done) {
-            if (!err) {
-              res.send("OK");
-            }
-          });
-        }
-      });
-    } else {
-      console.log(err);
+      res.send("OK");
     }
   });
 });

@@ -1,5 +1,4 @@
 module.exports = {
-  hranaUmeda: "Ceva descriere",
-  hranaUscata: "Ceva descriere"
-  // TODO: adauga descriere
+  hranaUmeda: "Hrana umeda bogata in nutrienti si vitamine",
+  hranaUscata: "Hrana uscata bogata in fibre si proteine"
 };

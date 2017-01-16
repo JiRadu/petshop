@@ -367,7 +367,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     $scope.tables.cautare.splice(index, 1);
   }
   var optiuneValida = true;
-  //TODO: denumiri de variabile mai explicite
+
   function afisareFiltru(optiune, campDeCautat, campCautat, arrayFinal) {
     $scope.tables.cautare.forEach(function(produs) {
       optiune.forEach(function(element) {
