@@ -106,11 +106,11 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       // console.log($scope.tables.produse);
     }, function error(response) {});
 
-  $http.get('/comenziPentruVizualizat')
-    .then(function success(response) {
-      $scope.tables.comenzi = response.data;
-    });
   $rootScope.refresh = function() {
+    $http.get('/comenziPentruVizualizat')
+      .then(function success(response) {
+        $scope.tables.comenzi = response.data;
+      });
     $http.get('/numarComenziInDesfasurare')
       .then(function success(response) {
         $scope.comenziInDesfasurare = response.data.Numar;
@@ -128,7 +128,8 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
           $scope.clientiCuComenziNeterminate = response.data.Numar;
         }
       });
-  }
+  };
+  $rootScope.refresh();
   $scope.removeProduct = function(index, productID) {
     $http.post('/stergeProdus', { productID: productID })
       .then(function success(response) {
@@ -153,7 +154,6 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   };
   $scope.finishOrder = function(ComandaID, index) {
     $http.post('/finishOrder', { ComandaID: ComandaID }).then(function success(response) {
-      console.log(response.data);
       if (response.data === "OK") {
         $scope.tables.comenzi[index].Stare = "Finalizata";
         $scope.comenziInDesfasurare--;
