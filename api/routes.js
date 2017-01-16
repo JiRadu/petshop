@@ -18,7 +18,7 @@ app.get('/produse', function(req, res) {
     res.send(rows);
   });
 });
-app.post('/stergeProdus', function(req, res) {
+app.post('/removeProduct', function(req, res) {
   connection.query("DELETE FROM `petshop`.`Produs`\
                     WHERE ProdusID = '" + req.body.productID + "'", function(err, rows) {
     if (!err) {
@@ -357,7 +357,11 @@ app.get('/produseInCursDeLivrare', function(req, res) {
                     AND P.ProdusID = PC.ProdusID\
                     AND C.ComandaID = PC.ComandaID", function(err, done) {
     if (!err) {
-      res.send(done[0]);
+      if (done.Numar !== undefined) {
+        res.send(done[0]);
+      } else {
+        res.send("gol");
+      }
     } else {
       res.send(err);
     }

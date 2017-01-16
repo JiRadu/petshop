@@ -117,7 +117,11 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       });
     $http.get('/produseInCursDeLivrare')
       .then(function success(response) {
-        $scope.produseInCursDeLivrare = response.data.Numar;
+        if (response.data === "gol") {
+          $scope.produseInCursDeLivrare = 0;
+        } else {
+          $scope.produseInCursDeLivrare = response.data.Numar;
+        }
       });
 
     $http.get('/clientiCuComenziNeterminate')
@@ -131,7 +135,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   };
   $rootScope.refresh();
   $scope.removeProduct = function(index, productID) {
-    $http.post('/stergeProdus', { productID: productID })
+    $http.post('/removeProduct', { productID: productID })
       .then(function success(response) {
         $scope.tables.produse.splice(index, 1);
       }, function error(response) {});
@@ -169,13 +173,6 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
   $scope.clientsAreCollapsed = true;
   $scope.ordersAreCollapsed = true;
   $scope.animalsAreCollapsed = true;
-
-  ///////////////////////////////////////////////////////
-  // Initializare paginare
-  ///////////////////////////////////////////////////////
-  $scope.currentPage = 1;
-  $scope.itemsPerPage = 11; //the result is added by 1
-
 
   ///////////////////////////////////////////////////////
   // Initializare Modale
