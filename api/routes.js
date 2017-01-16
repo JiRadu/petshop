@@ -19,14 +19,16 @@ app.get('/produse', function(req, res) {
   });
 });
 app.post('/stergeProdus', function(req, res) {
-  connection.query("DELETE FROM `petshop`.`Produs` WHERE ProdusID = '" + req.body.productID + "'", function(err, rows) {
+  connection.query("DELETE FROM `petshop`.`Produs`\
+                    WHERE ProdusID = '" + req.body.productID + "'", function(err, rows) {
     if (!err) {
       res.send('OK');
     }
   });
 });
 app.post('/stergeClient', function(req, res) {
-  connection.query("DELETE FROM `petshop`.`Client` WHERE ClientID = '" + req.body.clientID + "'", function(err, rows) {
+  connection.query("DELETE FROM `petshop`.`Client`\
+                    WHERE ClientID = '" + req.body.clientID + "'", function(err, rows) {
     if (!err) {
       res.send('OK');
     } else {
@@ -52,50 +54,61 @@ app.get('/animalePentruVizualizat', function(req, res) {
     });
 });
 app.get('/specii', function(req, res) {
-  connection.query("SELECT Nume FROM `petshop`.`Animal` GROUP BY Nume", function(err, rows) {
+  connection.query("SELECT Nume\
+                    FROM `petshop`.`Animal`\
+                    GROUP BY Nume", function(err, rows) {
     res.send(rows);
   });
 });
 app.get('/talii', function(req, res) {
-  connection.query("SELECT Talie FROM `petshop`.`Animal` GROUP BY Talie", function(err, rows) {
+  connection.query("SELECT Talie\
+                    FROM `petshop`.`Animal`\
+                    GROUP BY Talie", function(err, rows) {
     res.send(rows);
   });
 });
 app.get('/varste', function(req, res) {
-  connection.query("SELECT Varsta FROM `petshop`.`Animal` GROUP BY Varsta", function(err, rows) {
+  connection.query("SELECT Varsta\
+                    FROM `petshop`.`Animal`\
+                    GROUP BY Varsta", function(err, rows) {
     res.send(rows);
   });
 });
 app.get('/arome', function(req, res) {
-  connection.query("SELECT Aroma FROM `petshop`.`Produs` GROUP BY Aroma", function(err, rows) {
+  connection.query("SELECT Aroma\
+                    FROM `petshop`.`Produs`\
+                    GROUP BY Aroma", function(err, rows) {
     res.send(rows);
   });
 });
 app.get('/firme', function(req, res) {
-  connection.query("SELECT Firma FROM `petshop`.`Produs` GROUP BY Firma", function(err, rows) {
+  connection.query("SELECT Firma\
+                    FROM `petshop`.`Produs`\
+                    GROUP BY Firma", function(err, rows) {
     res.send(rows);
   });
 });
-app.post('/orase', function(req, res) {
-  var judet = req.body;
-  res.send(orase);
-});
-app.post('/judete', function(req, res) {
-  var oras = req.body;
-  res.send(judete);
-});
 app.post('/adaugaProdus', function(req, res) {
   var Produs = req.body;
-  connection.query("INSERT INTO `petshop`.`Produs` (Nume, Descriere, Pret, \
-                  DataAparitie, Stoc, CategorieID, AnimalID, Firma, Aroma ) \
-					        VALUES ('" + Produs.Nume + "', '" + Produs.Descriere + "', '\
-                  " + Produs.Pret + "',CURDATE(), '" + Produs.Stoc + "','" + "\
-                  (SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '\
-                  " + Produs.Categorie + "')" + "','" + "(SELECT AnimalID from \
-                  `petshop`.`Animal` WHERE Nume = '" + Produs.Specie + "'AND\
-                  Talie='" + Produs.Talie + "' AND Varsta = '" + Produs.Varsta + "\
-                  ')" + "','" + Produs.Firma + "','" + Produs.Aroma + "');\
-                  ", function(err, done) {
+  connection.query("INSERT INTO `petshop`.`Produs`(Nume,\
+                   Descriere, Pret, DataAparitie, Stoc,\
+                   CategorieID, AnimalID, Firma, Aroma ) \
+					        VALUES ('" + Produs.Nume + "',\
+                  '" + Produs.Descriere + "',\
+                  '" + Produs.Pret + "',\
+                  CURDATE(),\
+                  '" + Produs.Stoc + "',\
+                      (SELECT CategorieID\
+                       FROM `petshop`.`Categorie`\
+                       WHERE Nume = '" + Produs.Categorie + "'),\
+                       " + "\
+                       (SELECT AnimalID\
+                        FROM `petshop`.`Animal`\
+                        WHERE Nume= '" + Produs.Specie + "'\
+                        AND Talie= '" + Produs.Talie + "'\
+                        AND Varsta = '" + Produs.Varsta + "'),\
+                  '" + Produs.Firma + "',\
+                  '" + Produs.Aroma + "');", function(err, done) {
     if (!err) {
       res.send("OK");
     }
@@ -103,8 +116,15 @@ app.post('/adaugaProdus', function(req, res) {
 });
 app.post('/adaugaClient', function(req, res) {
   var Client = req.body;
-  connection.query("INSERT INTO `petshop`.`Client` (Nume, Utilizator, Parola, Email, Adresa, Oras, Judet) \
-					 VALUES ('" + Client.Nume + "', '" + Client.Utilizator + "', '" + Client.Parola + "', '" + Client.Email + "','" + Client.Adresa + "','" + Client.Oras + "','" + Client.Judet + "');", function(err, done) {
+  connection.query("INSERT INTO `petshop`.`Client`\
+                  (Nume, Utilizator, Parola, Email, Adresa, Oras, Judet) \
+					        VALUES ('" + Client.Nume + "',\
+                  '" + Client.Utilizator + "',\
+                  '" + Client.Parola + "',\
+                  '" + Client.Email + "',\
+                  '" + Client.Adresa + "',\
+                  '" + Client.Oras + "',\
+                  '" + Client.Judet + "');", function(err, done) {
     if (!err) {
       res.send("OK");
     } else {
@@ -128,25 +148,26 @@ app.post('/editeazaClient', function(req, res) {
 });
 app.post('/editeazaProdus', function(req, res) {
   var Produs = req.body;
-  connection.query("SELECT CategorieID from `petshop`.`Categorie` WHERE Nume = '" + Produs.Categorie + "';", function(err, done) {
+  connection.query("UPDATE `petshop`.`Produs`\
+                    SET Nume = '" + Produs.Nume + "',\
+										Descriere = '" + Produs.Descriere + "',\
+                    Pret = " + Produs.Pret + ",\
+                    Stoc = '" + Produs.Stoc + "',\
+                    CategorieID =  (SELECT CategorieID\
+                                    FROM `petshop`.`Categorie`\
+                                    WHERE Nume ='" + Produs.Categorie + "'),\
+                    AnimalID = (SELECT AnimalID\
+                                FROM `petshop`.`Animal`\
+                                WHERE Nume = '" + Produs.Specie + "'\
+                                AND Talie='" + Produs.Talie + "'\
+                                AND Varsta = '" + Produs.Varsta + "'),\
+                    Firma = '" + Produs.Firma + "',\
+                    Aroma = '" + Produs.Aroma + "'\
+									  WHERE ProdusID = " + Produs.ProdusID + ";", function(err, done) {
     if (!err) {
-      var categorieID = done[0].CategorieID;
-      connection.query("SELECT AnimalID from `petshop`.`Animal` WHERE Nume = '" + Produs.Specie + "'AND Talie='" + Produs.Talie + "' AND Varsta = '" + Produs.Varsta + "';", function(err, done) {
-        if (!err) {
-          var animalID = done[0].AnimalID;
-          connection.query("UPDATE `petshop`.`Produs` SET Nume = '" + Produs.Nume + "', \
-													Descriere = '" + Produs.Descriere + "', Pret = '" + Produs.Pret + "',\
-													Stoc = '" + Produs.Stoc + "', CategorieID =  '" + categorieID + "',\
-													AnimalID = '" + animalID + "', Firma = '" + Produs.Firma + "', Aroma = '" + Produs.Aroma + "'\
-													WHERE ProdusID = '" + Produs.ProdusID + "';", function(err, done) {
-            if (!err) {
-              res.send("OK");
-            }
-          });
-        }
-      });
+      res.send("OK");
     } else {
-      console.log(err);
+      res.send(err);
     }
   });
 });
@@ -154,15 +175,22 @@ app.post('/addToCart', function(req, res) {
   var produs = req.body.produs;
   var cantitate = req.body.cantitate;
   var ComandaCurenta;
-  connection.query("SELECT ComandaID FROM `petshop`.`Comanda` WHERE `ClientID` = 1 AND `Stare` = 'Neconfirmata'", function(err, data) {
+  connection.query("SELECT ComandaID\
+                    FROM `petshop`.`Comanda`\
+                    WHERE `ClientID` = 1\
+                    AND `Stare` = 'Neconfirmata'", function(err, data) {
     if (!err) {
-      if (data == 0) {
-        connection.query("INSERT INTO `petshop`.`Comanda`(`ClientID`,`Stare`,`DataAparitie`)\
-        VALUES (1, 'Neconfirmata', NOW())", function(err, data) {
+      if (typeof data === 'object' && data.length === 0) {
+        connection.query("INSERT INTO `petshop`.`Comanda`\
+                        (`ClientID`,`Stare`,`DataAparitie`)\
+                        VALUES (1, 'Neconfirmata', NOW())", function(err, data) {
           if (!err) {
             ComandaCurenta = data;
-            connection.query("INSERT INTO `petshop`.`ProdusComanda`(`ProdusId`,`ComandaID`,`Cantitate`)\
-                VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.insertId + "', '" + cantitate + "' );", function(err, done) {
+            connection.query("INSERT INTO `petshop`.`ProdusComanda`\
+                            (`ProdusId`,`ComandaID`,`Cantitate`)\
+                            VALUES ('" + produs.ProdusID + "',\
+                            '" + ComandaCurenta.insertId + "',\
+                            '" + cantitate + "' );", function(err, done) {
               if (!err) {
                 res.send("OK");
               }
@@ -171,7 +199,9 @@ app.post('/addToCart', function(req, res) {
         });
       } else {
         ComandaCurenta = data[0];
-        connection.query("SELECT ProdusID FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaCurenta.ComandaID, function(err, done) {
+        connection.query("SELECT ProdusID\
+                          FROM `petshop`.`ProdusComanda`\
+                          WHERE ComandaID = " + ComandaCurenta.ComandaID, function(err, done) {
           if (!err) {
             var alreadyThere = false;
             done.forEach(function(item) {
@@ -180,15 +210,20 @@ app.post('/addToCart', function(req, res) {
               }
             });
             if (alreadyThere) {
-              connection.query("UPDATE `petshop`.`ProdusComanda` SET Cantitate = Cantitate + " + cantitate + " WHERE ProdusID = \
-                  " + produs.ProdusID + " AND ComandaID = " + ComandaCurenta.ComandaID + "; ", function(err, done) {
+              connection.query("UPDATE `petshop`.`ProdusComanda`\
+                                SET Cantitate = Cantitate + " + cantitate + "\
+                                WHERE ProdusID = " + produs.ProdusID + "\
+                                AND ComandaID = " + ComandaCurenta.ComandaID + "; ", function(err, done) {
                 if (!err) {
                   res.send("OK");
                 } else {}
               });
             } else {
-              connection.query("INSERT INTO `petshop`.`ProdusComanda`(`ProdusID`,`ComandaID`,`Cantitate`)\
-                  VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.ComandaID + "', '" + cantitate + "' );", function(err, done) {
+              connection.query("INSERT INTO `petshop`.`ProdusComanda`\
+                                (`ProdusID`,`ComandaID`,`Cantitate`)\
+                                VALUES ('" + produs.ProdusID + "',\
+                                '" + ComandaCurenta.ComandaID + "',\
+                                '" + cantitate + "' );", function(err, done) {
                 if (!err) {
                   res.send("OK");
                 } else {
@@ -222,7 +257,9 @@ app.post('/getCartItems', function(req, res) {
 app.post('/removeItemFromCart', function(req, res) {
   var ProdusID = req.body.ProdusID;
   var ComandaID = req.body.ComandaID;
-  connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID + " AND ProdusID = " + ProdusID, function(err, done) {
+  connection.query("DELETE FROM `petshop`.`ProdusComanda`\
+                    WHERE ComandaID = " + ComandaID + "\
+                    AND ProdusID = " + ProdusID, function(err, done) {
     if (!err) {
       res.send("OK");
     } else {
@@ -232,7 +269,9 @@ app.post('/removeItemFromCart', function(req, res) {
 });
 app.post('/finishOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
-  connection.query("UPDATE Comanda SET Stare = 'Finalizata'  WHERE ComandaID = " + ComandaID, function(err, done) {
+  connection.query("UPDATE Comanda\
+                    SET Stare = 'Finalizata'\
+                    WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
       res.send("OK");
     } else {
@@ -242,9 +281,11 @@ app.post('/finishOrder', function(req, res) {
 });
 app.post('/cancelOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
-  connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID, function(err, done) {
+  connection.query("DELETE FROM `petshop`.`ProdusComanda`\
+                    WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
-      connection.query("DELETE FROM `petshop`.`Comanda` WHERE ComandaID = " + ComandaID, function(err, done) {
+      connection.query("DELETE FROM `petshop`.`Comanda`\
+                        WHERE ComandaID = " + ComandaID, function(err, done) {
         if (!err) {
           res.send("OK");
         }
@@ -256,7 +297,9 @@ app.post('/cancelOrder', function(req, res) {
 });
 app.post('/confirmOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
-  connection.query("UPDATE `petshop`.`Comanda` SET Stare = 'In desfasurare' WHERE ComandaID = " + ComandaID, function(err, done) {
+  connection.query("UPDATE `petshop`.`Comanda`\
+                    SET Stare = 'In desfasurare'\
+                    WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
       res.send("OK");
     } else {
@@ -265,7 +308,9 @@ app.post('/confirmOrder', function(req, res) {
   });
 });
 app.get('/numarComenziInDesfasurare', function(req, res) {
-  connection.query("SELECT count(*) as Numar FROM `petshop`.`Comanda` WHERE Stare = 'In desfasurare'", function(err, done) {
+  connection.query("SELECT count(*) as Numar\
+                    FROM `petshop`.`Comanda`\
+                    WHERE Stare = 'In desfasurare'", function(err, done) {
     if (!err) {
       res.send({ Numar: done[0].Numar });
     } else {
@@ -288,13 +333,13 @@ app.get('/comenziPentruVizualizat', function(req, res) {
 });
 
 app.get('/clientiCuComenziNeterminate', function(req, res) {
-  connection.query("SELECT C.ClientID as Numar\
-                    FROM Client C, Comanda Co\
-                    WHERE Co.ClientID = C.ClientID\
-                    AND Co.Stare = 'In desfasurare'\
+  connection.query("SELECT C.ClientID as Numar \
+                    FROM Client C, Comanda Co \
+                    WHERE Co.ClientID = C.ClientID \
+                    AND Co.Stare = 'In desfasurare' \
                     GROUP BY C.ClientID;", function(err, done) {
     if (!err) {
-      if (typeof done === "array") {
+      if (done.length > 0) {
         res.send(done[0]);
       } else {
         res.send("gol");
@@ -319,4 +364,4 @@ app.get('/produseInCursDeLivrare', function(req, res) {
   });
 
 });
-module.exports = app;
+module.exports = app;;
