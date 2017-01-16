@@ -125,8 +125,8 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     $http.post('/stergeClient', { clientID: clientID })
       .then(function success(response) {
         $scope.tables.clienti.splice(index, 1);
-      }, function error(response) {
-        console.log(response);
+      }, function error(err) {
+        console.log(err);
       });
   };
   $scope.cancelOrder = function(ComandaID, index) {
@@ -137,6 +137,16 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       }
     });
   };
+  $http.get('/produseInCursDeLivrare')
+    .then(function success(response) {
+      console.log(response.data.Numar);
+      $scope.produseInCursDeLivrare = response.data.Numar;
+    });
+  $http.get('/clientiCuComenziNeterminate')
+    .then(function success(response) {
+      console.log(response.data.Numar);
+      $scope.clientiCuComenziNeterminate = response.data.Numar;
+    });
 
 
   ///////////
@@ -387,6 +397,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       $scope.nrBucati[$index]++;
     }
   };
+
   $scope.minusBucati = function($index) {
     if ($scope.nrBucati[$index] > 1) {
       $scope.nrBucati[$index]--;
@@ -401,7 +412,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
         console.log(response);
       }
     }, function error(err) {
-      console.log(err); //TODO: rezolva eroarea in caz ca nu e vreo comanda cu status "inCos"
+      console.log(err);
     });
   };
 

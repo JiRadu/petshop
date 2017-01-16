@@ -12,9 +12,8 @@
                     <button type="button" class="btn btn-default fa" ng-class="productsExpand" ng-click="collapseProducts()"></button>
                     <button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openProductModal()"> </button>
                 </div>
-                <div class="comment">Numar total pe stoc: {{tables.produse.length}}</div>
-                <!-- TODO: sa faci sa mearga produseInCursDeLivrare -->
-                <div class="comment" style="color:red">In curs de livrare: {{tables.produseInCursDeLivrare.length}}</div>
+                <div class="comment">Tipuri diferite de produse: {{tables.produse.length}}</div>
+                <div class="comment">In curs de livrare: {{produseInCursDeLivrare}}</div>
             </rd-widget-body>
         </rd-widget>
     </div>
@@ -34,8 +33,7 @@
                     <button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openUserModal()">  </button>
                 </div>
                 <div class="comment">Numar total: {{tables.clienti.length}}</div>
-                <!-- TODO: si aici sa meaga sa afiseze cati clienti au comenzi neterminate -->
-                <div class="comment" style="color:red">Cu comenzi neterminate: {{tables.comenzi.length || 2}}</div>
+                <div class="comment">Cu comenzi neterminate: {{clientiCuComenziNeterminate}}</div>
             </rd-widget-body>
         </rd-widget>
     </div>

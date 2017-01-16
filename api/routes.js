@@ -168,7 +168,7 @@ app.post('/addToCart', function(req, res) {
           if (!err) {
             ComandaCurenta = data;
             connection.query("INSERT INTO `petshop`.`ProdusComanda`(`ProdusId`,`ComandaID`,`Cantitate`)\
-                VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.ComandaID + "', '" + cantitate + "' );", function(err, done) {
+                VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.insertId + "', '" + cantitate + "' );", function(err, done) {
               if (!err) {
                 res.send("OK");
               }
@@ -184,7 +184,7 @@ app.post('/addToCart', function(req, res) {
               if (item.ProdusID == produs.ProdusID) {
                 alreadyThere = true;
               }
-            })
+            });
             if (alreadyThere) {
               connection.query("UPDATE `petshop`.`ProdusComanda` SET Cantitate = Cantitate + " + cantitate + " WHERE ProdusID = \
                   " + produs.ProdusID + " AND ComandaID = " + ComandaCurenta.ComandaID + "; ", function(err, done) {
@@ -213,7 +213,11 @@ app.post('/getCartItems', function(req, res) {
   var ClientID = req.body.ClientID;
   var ComandaID;
   var CartItems;
-  connection.query("SELECT * FROM Produs P, Comanda C, ProdusComanda PC WHERE P.ProdusID = PC.ProdusID AND C.ComandaID = PC.ComandaID AND C.Stare = 'Neconfirmata' AND C.ClientID = " + ClientID, function(err, done) {
+  connection.query("SELECT * \
+                    FROM Produs P, Comanda C, ProdusComanda PC\
+                    WHERE P.ProdusID = PC.ProdusID AND C.ComandaID = PC.ComandaID\
+                    AND C.Stare = 'Neconfirmata'\
+                    AND C.ClientID = " + ClientID, function(err, done) {
     if (!err) {
       res.send(done);
     } else {
@@ -277,5 +281,34 @@ app.get('/comenziPentruVizualizat', function(req, res) {
       res.send(err);
     }
   });
+});
+
+app.get('/clientiCuComenziNeterminate', function(req, res) {
+  connection.query("SELECT C.ClientID as Numar\
+                    FROM Client C, Comanda Co\
+                    WHERE Co.ClientID = C.ClientID\
+                    AND Co.Stare = 'In desfasurare'\
+                    GROUP BY C.ClientID;", function(err, done) {
+    if (!err) {
+      res.send(done[0]);
+    } else {
+      res.send(err);
+    }
+  });
+});
+
+app.get('/produseInCursDeLivrare', function(req, res) {
+  connection.query("SELECT sum(PC.Cantitate) as Numar\
+                    FROM Comanda C, Produs P, ProdusComanda PC\
+                    WHERE C.Stare = 'In desfasurare'\
+                    AND P.ProdusID = PC.ProdusID\
+                    AND C.ComandaID = PC.ComandaID", function(err, done) {
+    if (!err) {
+      res.send(done[0]);
+    } else {
+      res.send(err);
+    }
+  });
+
 });
 module.exports = app;
