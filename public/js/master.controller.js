@@ -75,7 +75,8 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     'animale': [],
     'categorii': [],
     'produse': [],
-    'cautare': []
+    'cautare': [],
+    'comenzi': []
   };
 
   $http.get('/clienti')
@@ -105,6 +106,15 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       // console.log($scope.tables.produse);
     }, function error(response) {});
 
+  $http.get('/comenziPentruVizualizat')
+    .then(function success(response) {
+      $scope.tables.comenzi = response.data;
+    });
+  $http.get('/numarComenziInDesfasurare')
+    .then(function success(response) {
+      $scope.comenziInDesfasurare = response.data.Numar;
+    });
+
   $scope.removeProduct = function(index, productID) {
     $http.post('/stergeProdus', { productID: productID })
       .then(function success(response) {
@@ -118,6 +128,14 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       }, function error(response) {
         console.log(response);
       });
+  };
+  $scope.cancelOrder = function(ComandaID, index) {
+    $http.post('/cancelOrder', { ComandaID: ComandaID }).then(function success(response) {
+      if (response.data === "OK") {
+        $scope.tables.comenzi.splice(index, 1);
+        $scope.comenziInDesfasurare--;
+      }
+    });
   };
 
 
@@ -383,7 +401,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
         console.log(response);
       }
     }, function error(err) {
-      console.log(err);
+      console.log(err); //TODO: rezolva eroarea in caz ca nu e vreo comanda cu status "inCos"
     });
   };
 

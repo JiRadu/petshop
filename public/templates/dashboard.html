@@ -13,6 +13,7 @@
                     <button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openProductModal()"> </button>
                 </div>
                 <div class="comment">Numar total pe stoc: {{tables.produse.length}}</div>
+                <!-- TODO: sa faci sa mearga produseInCursDeLivrare -->
                 <div class="comment" style="color:red">In curs de livrare: {{tables.produseInCursDeLivrare.length}}</div>
             </rd-widget-body>
         </rd-widget>
@@ -33,6 +34,7 @@
                     <button type="button" class="pull-right fa fa-plus btn btn-default" ng-click="openUserModal()">  </button>
                 </div>
                 <div class="comment">Numar total: {{tables.clienti.length}}</div>
+                <!-- TODO: si aici sa meaga sa afiseze cati clienti au comenzi neterminate -->
                 <div class="comment" style="color:red">Cu comenzi neterminate: {{tables.comenzi.length || 2}}</div>
             </rd-widget-body>
         </rd-widget>
@@ -52,8 +54,8 @@
                     <button type="button" class="btn btn-default fa" ng-class="ordersExpand" ng-click="collapseOrders()"></button>
                     <a type="button" class="pull-right btn btn-default fa fa-plus" href="#/cart"></a>
                 </div>
-                <div class="comment" style="color:red"> Numar total: {{tables.status.length || 334}} </div>
-                <div class="comment" style="color:red"> In desfasurare: {{tables.status.length || 4}} </div>
+                <div class="comment"> Numar total: {{tables.comenzi.length}} </div>
+                <div class="comment"> In desfasurare: {{comenziInDesfasurare}} </div>
             </rd-widget-body>
         </rd-widget>
     </div>
@@ -170,7 +172,7 @@
     <!-- Tabel cu comenzi in desfasurare -->
     <div id="tabelComenzi" class="col-lg-6 col-md-12 col-xs-12" uib-collapse="ordersAreCollapsed">
         <rd-widget>
-            <rd-widget-header icon="fa-truck" title="Comenzi in desfasurare">
+            <rd-widget-header icon="fa-truck" title="Comenzi">
             </rd-widget-header>
             <rd-widget-body classes="large no-padding">
                 <div class="table-responsive">
@@ -179,18 +181,22 @@
                             <td>Numar comanda</td>
                             <td>Numele destinatarului</td>
                             <td>Adresa</td>
-                            <td>Status</td>
+                            <td>Total</td>
+                            <td>Stare</td>
                             <td>Schimba status</td>
                         </thead>
-                        <tbody ng-repeat="users in tables.clienti">
+                        <tbody ng-repeat="comanda in tables.comenzi">
                             <tr>
-                                <td>{{comanda.comandaID}}</td>
-                                <td>{{users.Nume}}</td>
-                                <td>{{adresa.oras}}</td>
-                                <td>{{comanda.status}}</td>
+                                <td>{{comanda.ComandaID}}</td>
+                                <td>{{comanda.Nume}}</td>
+                                <td>{{comanda.Adresa}}</td>
+                                <td>{{comanda.Total}}</td>
+                                <td>{{comanda.Stare}}</td>
                                 <td>
+                                    <!-- TODO:schimba status in "finalizata", decremeneteaza comenziInDesfasurare, si fa un nou buton cu Sterge, ascunde butoanele Finalizare si Anulare -->
+                                    <!-- adauga ng-show pentru a ascunde finalizare/anulare -->
                                     <button class="btn btn-primary">Finalizare</button>
-                                    <button class="btn btn-danger">Anulare</button>
+                                    <button class="btn btn-danger" ng-click="cancelOrder(comanda.ComandaID, $index)">Anulare</button>
                                 </td>
                             </tr>
                         </tbody>

@@ -236,7 +236,11 @@ app.post('/cancelOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
   connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
-      res.send("OK");
+      connection.query("DELETE FROM `petshop`.`Comanda` WHERE ComandaID = " + ComandaID, function(err, done) {
+        if (!err) {
+          res.send("OK");
+        }
+      });
     } else {
       res.send(err);
     }
@@ -247,6 +251,28 @@ app.post('/confirmOrder', function(req, res) {
   connection.query("UPDATE `petshop`.`Comanda` SET Stare = 'In desfasurare' WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
       res.send("OK");
+    } else {
+      res.send(err);
+    }
+  });
+});
+app.get('/numarComenziInDesfasurare', function(req, res) {
+  connection.query("SELECT count(*) as Numar FROM `petshop`.`Comanda` WHERE Stare = 'In desfasurare'", function(err, done) {
+    if (!err) {
+      res.send({ Numar: done[0].Numar });
+    } else {
+      res.send(err);
+    }
+  });
+});
+app.get('/comenziPentruVizualizat', function(req, res) {
+  connection.query("SELECT C.*,sum(P.Pret * PC.Cantitate) as Total, Cl.Nume, Cl.Adresa \
+                    FROM Comanda C, ProdusComanda PC, Produs P, Client Cl \
+                    WHERE PC.ComandaID = C.ComandaID AND PC.ProdusID = P.ProdusID \
+                    AND C.Stare != 'Neconfirmata' AND Cl.ClientID = C.ClientID\
+                    GROUP BY ComandaID;", function(err, done) {
+    if (!err) {
+      res.send(done);
     } else {
       res.send(err);
     }

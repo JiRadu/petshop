@@ -1,5 +1,5 @@
 angular.module('petShopApp')
-  .controller('cartController', function($http, $scope) {
+  .controller('cartController', function($http, $scope, $location) {
     $http.post('/getCartItems', { ClientID: 1 })
       .then(function(response) {
         if (response.data.length > 0) {
@@ -36,6 +36,7 @@ angular.module('petShopApp')
     $scope.confirmOrder = function(ComandaID) {
       $http.post('/confirmOrder', { ComandaID: ComandaID }).then(function success(response) {
         $scope.items = [];
-      })
-    }
+        //TODO: incrementeaza numerele de la dashboard - > comenzi
+      });
+    };
   });
