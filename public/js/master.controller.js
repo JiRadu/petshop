@@ -129,25 +129,35 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
         console.log(err);
       });
   };
-  $scope.cancelOrder = function(ComandaID, index) {
+  $scope.cancelOrder = function(ComandaID, index, nr) {
     $http.post('/cancelOrder', { ComandaID: ComandaID }).then(function success(response) {
       if (response.data === "OK") {
         $scope.tables.comenzi.splice(index, 1);
+        $scope.comenziInDesfasurare = $scope.comenziInDesfasurare - nr.toInt();
+      }
+    });
+  };
+  $scope.finishOrder = function(ComandaID, index) {
+    $http.post('/finishOrder', { ComandaID: ComandaID }).then(function success(response) {
+      console.log(response.data);
+      if (response.data === "OK") {
+        $scope.tables.comenzi[index].Stare = "Finalizata";
         $scope.comenziInDesfasurare--;
       }
     });
   };
   $http.get('/produseInCursDeLivrare')
     .then(function success(response) {
-      console.log(response.data.Numar);
       $scope.produseInCursDeLivrare = response.data.Numar;
     });
   $http.get('/clientiCuComenziNeterminate')
     .then(function success(response) {
-      console.log(response.data.Numar);
-      $scope.clientiCuComenziNeterminate = response.data.Numar;
+      if (response.data === "gol") {
+        $scope.clientiCuComenziNeterminate = 0;
+      } else {
+        $scope.clientiCuComenziNeterminate = response.data.Numar;
+      }
     });
-
 
   ///////////
   ////Ascundere Initiala tabele

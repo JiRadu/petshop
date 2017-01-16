@@ -191,10 +191,9 @@
                                 <td>{{comanda.Total}}</td>
                                 <td>{{comanda.Stare}}</td>
                                 <td>
-                                    <!-- TODO:schimba status in "finalizata", decremeneteaza comenziInDesfasurare, si fa un nou buton cu Sterge, ascunde butoanele Finalizare si Anulare -->
-                                    <!-- adauga ng-show pentru a ascunde finalizare/anulare -->
-                                    <button class="btn btn-primary">Finalizare</button>
-                                    <button class="btn btn-danger" ng-click="cancelOrder(comanda.ComandaID, $index)">Anulare</button>
+                                    <button class="btn btn-danger" ng-click="cancelOrder(comanda.ComandaID, 0)" ng-show="comanda.Stare == 'Finalizata'">Sterge</button>
+                                    <button class="btn btn-primary" ng-click="finishOrder(comanda.ComandaID, $index)" ng-show="comanda.Stare == 'In desfasurare'">Finalizare</button>
+                                    <button class="btn btn-danger" ng-click="cancelOrder(comanda.ComandaID, $index, 1)" ng-show="comanda.Stare == 'In desfasurare'">Anulare</button>
                                 </td>
                             </tr>
                         </tbody>

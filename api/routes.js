@@ -236,6 +236,16 @@ app.post('/removeItemFromCart', function(req, res) {
     }
   });
 });
+app.post('/finishOrder', function(req, res) {
+  var ComandaID = req.body.ComandaID;
+  connection.query("UPDATE Comanda SET Stare = 'Finalizata'  WHERE ComandaID = " + ComandaID, function(err, done) {
+    if (!err) {
+      res.send("OK");
+    } else {
+      res.send(err);
+    }
+  });
+});
 app.post('/cancelOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
   connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID, function(err, done) {
@@ -290,7 +300,11 @@ app.get('/clientiCuComenziNeterminate', function(req, res) {
                     AND Co.Stare = 'In desfasurare'\
                     GROUP BY C.ClientID;", function(err, done) {
     if (!err) {
-      res.send(done[0]);
+      if (typeof done === "array") {
+        res.send(done[0]);
+      } else {
+        res.send("gol");
+      }
     } else {
       res.send(err);
     }
