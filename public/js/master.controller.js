@@ -110,11 +110,25 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     .then(function success(response) {
       $scope.tables.comenzi = response.data;
     });
-  $http.get('/numarComenziInDesfasurare')
-    .then(function success(response) {
-      $scope.comenziInDesfasurare = response.data.Numar;
-    });
+  $rootScope.refresh = function() {
+    $http.get('/numarComenziInDesfasurare')
+      .then(function success(response) {
+        $scope.comenziInDesfasurare = response.data.Numar;
+      });
+    $http.get('/produseInCursDeLivrare')
+      .then(function success(response) {
+        $scope.produseInCursDeLivrare = response.data.Numar;
+      });
 
+    $http.get('/clientiCuComenziNeterminate')
+      .then(function success(response) {
+        if (response.data === "gol") {
+          $scope.clientiCuComenziNeterminate = 0;
+        } else {
+          $scope.clientiCuComenziNeterminate = response.data.Numar;
+        }
+      });
+  }
   $scope.removeProduct = function(index, productID) {
     $http.post('/stergeProdus', { productID: productID })
       .then(function success(response) {
@@ -146,18 +160,7 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
       }
     });
   };
-  $http.get('/produseInCursDeLivrare')
-    .then(function success(response) {
-      $scope.produseInCursDeLivrare = response.data.Numar;
-    });
-  $http.get('/clientiCuComenziNeterminate')
-    .then(function success(response) {
-      if (response.data === "gol") {
-        $scope.clientiCuComenziNeterminate = 0;
-      } else {
-        $scope.clientiCuComenziNeterminate = response.data.Numar;
-      }
-    });
+
 
   ///////////
   ////Ascundere Initiala tabele
