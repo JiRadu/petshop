@@ -1,9 +1,9 @@
 angular.module('petShopApp')
   .controller('MasterCtrl', ['$scope', '$cookieStore', '$http', '$uibModal',
-    '$rootScope', '$location', '$anchorScroll', MasterCtrl
+    '$rootScope', '$location', '$anchorScroll', '$window', MasterCtrl
   ]);
 
-function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $location, anchorScroll) {
+function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $location, anchorScroll, $window) {
   ///////////////////////////////////////////////////////
   // Initializare la butoane din Widgets
   ///////////////////////////////////////////////////////
@@ -375,8 +375,16 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     }
   };
 
-  $scope.addToCart = function($index) {
-    // TODO: make addToCart function
+  $scope.addToCart = function(index, produs) {
+    $http.post('/addToCart', { produs: produs, cantitate: $scope.nrBucati[index] }).then(function success(response) {
+      if (response.data == 'OK') {
+        $window.alert("Produs adaugat cu success");
+      } else {
+        console.log(response);
+      }
+    }, function error(err) {
+      console.log(err);
+    });
   };
 
   ///////////////////////////////////////////////////////

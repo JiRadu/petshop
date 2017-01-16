@@ -1,5 +1,5 @@
 angular.module('petShopApp')
-  .controller('userModalCtrl', function($uibModalInstance, items, $http, $timeout) {
+  .controller('userModalCtrl', function($uibModalInstance, items, $http) {
     var self = this;
     self.Client = {};
     self.tables = {};

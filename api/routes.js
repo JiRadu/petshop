@@ -155,10 +155,81 @@ app.post('/editeazaProdus', function(req, res) {
       console.log(err);
     }
   });
-
-
-
+});
+app.post('/addToCart', function(req, res) {
+  var produs = req.body.produs;
+  var cantitate = req.body.cantitate;
+  var ComandaCurenta;
+  connection.query("SELECT ComandaID FROM `petshop`.`Comanda` WHERE `ClientID` = 1", function(err, data) {
+    if (!err) {
+      if (data === [0]) {
+        connection.query("INSERT INTO `petshop`.`Comanda`(`ClientID`,`Stare`,`DataAparitie`)\
+        VALUES (1, 'Neconfirmata', NOW())", function(err, data) {
+          if (!err) {
+            ComandaCurenta = data;
+            connection.query("INSERT INTO `petshop`.`ProdusComanda`(`ProdusId`,`ComandaID`,`Cantitate`)\
+                VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.ComandaID + "', '" + cantitate + "' );", function(err, done) {
+              if (!err) {
+                res.send("OK");
+              }
+            });
+          }
+        });
+      } else {
+        ComandaCurenta = data[0];
+        connection.query("SELECT ProdusID FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaCurenta.ComandaID, function(err, done) {
+          if (!err) {
+            var alreadyThere = false;
+            done.forEach(function(item) {
+              if (item.ProdusID == produs.ProdusID) {
+                alreadyThere = true;
+              }
+            })
+            if (alreadyThere) {
+              connection.query("UPDATE `petshop`.`ProdusComanda` SET Cantitate = Cantitate + " + cantitate + " WHERE ProdusID = \
+                  " + produs.ProdusID + " AND ComandaID = " + ComandaCurenta.ComandaID + "; ", function(err, done) {
+                if (!err) {
+                  res.send("OK");
+                } else {}
+              });
+            } else {
+              connection.query("INSERT INTO `petshop`.`ProdusComanda`(`ProdusID`,`ComandaID`,`Cantitate`)\
+                  VALUES ('" + produs.ProdusID + "','" + ComandaCurenta.ComandaID + "', '" + cantitate + "' );", function(err, done) {
+                if (!err) {
+                  res.send("OK");
+                } else {
+                  res.send(err);
+                }
+              });
+            }
+          }
+        });
+      }
+    }
+  });
 });
 
-
+app.post('/getCartItems', function(req, res) {
+  var ClientID = req.body.ClientID;
+  var ComandaID;
+  var CartItems;
+  connection.query("SELECT * FROM Produs P, Comanda C, ProdusComanda PC WHERE P.ProdusID = PC.ProdusID AND C.ComandaID = PC.ComandaID AND C.Stare = 'Neconfirmata' AND C.ClientID = " + ClientID, function(err, done) {
+    if (!err) {
+      res.send(done);
+    } else {
+      res.send(err);
+    }
+  });
+});
+app.post('/removeItemFromCart', function(req, res) {
+  var ProdusID = req.body.ProdusID;
+  var ComandaID = req.body.ComandaID;
+  connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID + " AND ProdusID = " + ProdusID, function(err, done) {
+    if (!err) {
+      res.send("OK");
+    } else {
+      res.send(err);
+    }
+  });
+});
 module.exports = app;

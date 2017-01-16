@@ -18,6 +18,7 @@ angular
         })
         .state('cart', {
           url: '/cart',
+          controller: 'cartController',
           templateUrl: 'templates/cart.html'
         });
     }
