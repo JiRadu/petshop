@@ -160,9 +160,9 @@ app.post('/addToCart', function(req, res) {
   var produs = req.body.produs;
   var cantitate = req.body.cantitate;
   var ComandaCurenta;
-  connection.query("SELECT ComandaID FROM `petshop`.`Comanda` WHERE `ClientID` = 1", function(err, data) {
+  connection.query("SELECT ComandaID FROM `petshop`.`Comanda` WHERE `ClientID` = 1 AND `Stare` = 'Neconfirmata'", function(err, data) {
     if (!err) {
-      if (data === [0]) {
+      if (data == 0) {
         connection.query("INSERT INTO `petshop`.`Comanda`(`ClientID`,`Stare`,`DataAparitie`)\
         VALUES (1, 'Neconfirmata', NOW())", function(err, data) {
           if (!err) {
@@ -225,6 +225,26 @@ app.post('/removeItemFromCart', function(req, res) {
   var ProdusID = req.body.ProdusID;
   var ComandaID = req.body.ComandaID;
   connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID + " AND ProdusID = " + ProdusID, function(err, done) {
+    if (!err) {
+      res.send("OK");
+    } else {
+      res.send(err);
+    }
+  });
+});
+app.post('/cancelOrder', function(req, res) {
+  var ComandaID = req.body.ComandaID;
+  connection.query("DELETE FROM `petshop`.`ProdusComanda` WHERE ComandaID = " + ComandaID, function(err, done) {
+    if (!err) {
+      res.send("OK");
+    } else {
+      res.send(err);
+    }
+  });
+});
+app.post('/confirmOrder', function(req, res) {
+  var ComandaID = req.body.ComandaID;
+  connection.query("UPDATE `petshop`.`Comanda` SET Stare = 'In desfasurare' WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
       res.send("OK");
     } else {

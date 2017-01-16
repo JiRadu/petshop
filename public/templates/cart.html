@@ -34,21 +34,31 @@
               {{item.Nume}}
           </td>
           <td>
-            Pret unitar: {{item.Cantitate}}
+            Pret unitar: {{item.Pret}}
           </td>
           <td>
-            Cantitate: {{item.Pret}}
+            Cantitate: {{item.Cantitate}}
           </td>
           <td>
             <button type="button" class="btn btn-danger fa fa-times" ng-click="removeItem($index, item)"></button>
           </td>
       </tr>
       <tr>
-        <td>Pret Total:</td>
-        <td></td>
-        <td>{{items.total}} lei</td>
-        <td></td>
+          <td>Pret Total:</td>
+          <td></td>
+          <td>{{items.total}} lei</td>
+          <td></td>
       </tr>
+      <tr>
+          <td>
+
+              <button type="button" class="btn btn-primary" ng-click="confirmOrder(items.ComandaID)">Confirma</button>
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+              <button type="button" class="btn btn-danger" ng-click="cancelOrder(items.ComandaID)">Anuleaza</button>
+          </td>
     </table>
     </div>
 </div>
