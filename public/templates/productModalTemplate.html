@@ -52,35 +52,37 @@
         </div>
 
         <!-- Animal-->
-        <div class="form-group">
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <label for="Animal">Animal:</label>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+                <!-- Specie animal -->
+                <label for="specie">Specie:</label>
+                <select class="form-control" id="specie" ng-model="$ctrl.Produs.Specie">
+                    <option ng-repeat="specie in $ctrl.tables.SpeciiAnimale">{{specie.Nume}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+                <!-- Talie Animal -->
+                <label for="talie">Talie:</label>
+                <select class="form-control" id="talie" ng-model="$ctrl.Produs.Talie">
+                    <option ng-repeat="talie in $ctrl.tables.TalieAnimale">{{talie.Talie}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12">
+                <!-- Varsta Animal -->
+                <label for="varsta">Varsta:</label>
+                <select class="form-control" id="varsta" ng-model="$ctrl.Produs.Varsta">
+                    <option ng-repeat="varsta in $ctrl.tables.VarstaAnimale">{{varsta.Varsta}}</option>
+                </select>
+            </div>
 
-            <label for="Animal">Animal:</label>
-            <br>
-            <br>
-
-            <!-- Specie animal -->
-            <label for="specie">Specie:</label>
-            <select class="form-control" id="specie" ng-model="$ctrl.Produs.Specie">
-          <option ng-repeat="specie in $ctrl.tables.SpeciiAnimale">{{specie.Nume}}</option>
-        </select>
-
-            <!-- Talie Animal -->
-            <label for="talie">Talie:</label>
-            <select class="form-control" id="talie" ng-model="$ctrl.Produs.Talie">
-          <option ng-repeat="talie in $ctrl.tables.TalieAnimale">{{talie.Talie}}</option>
-        </select>
-
-            <!-- Varsta Animal -->
-            <label for="varsta">Varsta:</label>
-            <select class="form-control" id="varsta" ng-model="$ctrl.Produs.Varsta">
-          <option ng-repeat="varsta in $ctrl.tables.VarstaAnimale">{{varsta.Varsta}}</option>
-        </select>
-
-        </div>
+            </div>
     </form>
-</div>
+    </div>
 
-<div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="$ctrl.save()">Save</button>
-    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-</div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.save()">Save</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>

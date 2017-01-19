@@ -298,7 +298,8 @@ app.post('/cancelOrder', function(req, res) {
 app.post('/confirmOrder', function(req, res) {
   var ComandaID = req.body.ComandaID;
   connection.query("UPDATE `petshop`.`Comanda`\
-                    SET Stare = 'In desfasurare'\
+                    SET Stare = 'In desfasurare',\
+                    DataAparitie = NOW()\
                     WHERE ComandaID = " + ComandaID, function(err, done) {
     if (!err) {
       res.send("OK");
