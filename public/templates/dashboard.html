@@ -81,7 +81,43 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-xs-12" align="center">
+      Query complex: cel mai scump produs din fiecare categorie in functie de specie de animal:
+        <select class="form-control col-lg-3 col-sm-3 col-xs-3" id="specie" ng-model="$ctrl.specie">
+              <option ng-repeat="specie in specii">{{specie.Nume}}</option>
+        </select>
+        <select class="form-control col-lg-3 col-sm-3 col-xs-3" id="talie" ng-model="$ctrl.talie">
+              <option ng-repeat="talie in talii">{{talie.Talie}}</option>
+        </select>
+        <select class="form-control col-lg-3 col-sm-3 col-xs-3" id="varsta" ng-model="$ctrl.varsta">
+              <option ng-repeat="varsta in varste">{{varsta.Varsta}}</option>
+        </select>
+        <button ng-click="getExpensiveProduct($ctrl.specie, $ctrl.talie, $ctrl.varsta)">Alege</button>
+        <div ng-repeat="produs in celMaiScumpProdus">
+            <div>
+                    {{produs.categorie}} -> {{produs.Nume}} : {{produs.Pret}} LEI
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12" align="center">
+      Query complex: cel mai scump produs in functie de talie, si cate sunt pe drum
+        <select class="form-control col-lg-3 col-sm-3 col-xs-3" id="talie" ng-model="$ctrl.talie2">
+              <option ng-repeat="talie in talii">{{talie.Talie}}</option>
+        </select>
+        <button ng-click="getExpensive2($ctrl.talie2)">Alege</button>
+        <div ng-repeat="produs in celMaiScumpProdus2">
+            <div>
+                  Rasa  {{produs.Nume}}, {{produs.Pret}} LEI, {{produs.Numar}} in comenzi in desfasurare
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12" align="center">
+      Query complex: toate comenzile strict mai mari decat ultima comanda
+      <div ng-repeat="comanda in comenziMaiMariDecatUltima">
+          <div>
+              Comanda ID: {{comanda.ComandaID}}, Total: {{comanda.Total}}
+          </div>
+      </div>
     </div>
 </div>
 <div class="row">

@@ -367,6 +367,70 @@ app.get('/produseInCursDeLivrare', function(req, res) {
       res.send(err);
     }
   });
+  /////////
+  //restul de query-uri
+  ////////////
+  app.post('/celMaiScumpProdusPentruFiecareCategorie', function(req, res) {
+    var animal = req.body.animal;
+    var talie = req.body.talie;
+    var varsta = req.body.varsta;
+    connection.query("SELECT C.Nume as categorie, P.Nume, P.Pret\
+	                   FROM Produs P, Categorie C, Animal A\
+                     WHERE A.Nume = '" + animal + "'\
+                    AND A.Talie = '" + talie + "'\
+                    AND A.Varsta = '" + varsta + "'\
+                    AND P.AnimalID = A.AnimalID\
+                    AND C.CategorieID = P.CategorieID\
+	                  HAVING P.Pret = (SELECT max(P2.Pret)\
+					                           from Produs P2, Animal A2, Categorie C2\
+					                           WHERE P2.CategorieID = C2.CategorieID\
+					                           AND A2.Nume = A.Nume\
+                                     AND A2.Talie = A.Talie\
+                                     AND A2.Varsta = A.Varsta\
+					                           AND A2.AnimalID = P2.AnimalID\
+                                     AND C2.CategorieID = P.CategorieID\
+					                           GROUP BY C2.CategorieID);", function(err, done) {
+      if (!err) {
+        res.send(done);
+      } else {
+        res.send(err);
+      }
+    });
+  });
+
+  app.post("/celMaiScumpProdusFunctieTalie", function(req, res) {
+    var talie = req.body.talie;
+    connection.query("SELECT max(P.Pret) as Pret, A.Nume, sum(PC.Cantitate) as Numar\
+	                    FROM Produs P, Categorie C, Animal A, ProdusComanda PC, Comanda Co\
+                      WHERE A.Talie = '" + talie + "'\
+                      AND P.AnimalID = A.AnimalID\
+                      AND C.CategorieID = P.CategorieID\
+                      AND Co.Stare = 'In desfasurare'\
+                      AND P.ProdusID = PC.ProdusID\
+                      AND Co.ComandaID = PC.ComandaID\
+                      GROUP BY A.Nume;", function(err, done) {
+      if (!err) {
+        res.send(done);
+      }
+    })
+  })
+
+  app.get("/comenziMaiMariDecatUltima", function(req, res) {
+    connection.query("SELECT C.ComandaID, sum(P.Pret * PC.Cantitate) as Total, Cl.Nume, Cl.Adresa \
+                      FROM Comanda C, ProdusComanda PC, Produs P, Client Cl \
+                      WHERE PC.ComandaID = C.ComandaID AND PC.ProdusID = P.ProdusID \
+                      AND C.Stare != 'Neconfirmata' AND Cl.ClientID = C.ClientID\
+					            GROUP BY C.ComandaID\
+                      HAVING Total > (SELECT sum(P2.Pret * PC2.Cantitate) as Total2\
+								                      FROM Produs P2, ProdusComanda PC2, Comanda C2\
+								                      WHERE PC2.ProdusID = P2.ProdusID\
+								                      AND C2.ComandaID = PC2.ComandaID\
+								                      AND C2.ComandaID = (SELECT max(C2.ComandaID) from Comanda C2));", function(err, done) {
+      if (!err) {
+        res.send(done);
+      }
+    });
+  })
 
 });
 module.exports = app;;

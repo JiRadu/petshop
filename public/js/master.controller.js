@@ -453,4 +453,40 @@ function MasterCtrl($scope, $cookieStore, $http, $uibModal, $rootScope, $locatio
     $scope.$apply();
   };
   ///////////////////////////////////////////////////////
+  //////////restul de query-uri
+  ///////////////////////////////////////////////////////
+  // var produseScumpe = false;
+  $scope.getExpensiveProduct = function(animal, talie, varsta) {
+    $http.post('/celMaiScumpProdusPentruFiecareCategorie', { animal: animal, talie: talie, varsta: varsta })
+      .then(function(success) {
+        console.log(success.data);
+        $scope.celMaiScumpProdus = success.data;
+        // produseScumpe = true;
+      });
+  };
+  $scope.getExpensive2 = function(talie) {
+    $http.post('/celMaiScumpProdusFunctieTalie', { talie: talie })
+      .then(function(success) {
+        console.log(success.data);
+        $scope.celMaiScumpProdus2 = success.data;
+        // produseScumpeTalie = true/;
+      });
+  };
+  $http.get('/comenziMaiMariDecatUltima')
+    .then(function(response) {
+      $scope.comenziMaiMariDecatUltima = response.data;
+    })
+  $http.get('/specii')
+    .then(function success(response) {
+      $scope.specii = response.data;
+    });
+  $http.get('/talii')
+    .then(function success(response) {
+      $scope.talii = response.data;
+    });
+  $http.get('/varste')
+    .then(function success(response) {
+      $scope.varste = response.data;
+    });
+
 }
