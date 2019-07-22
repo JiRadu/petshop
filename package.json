@@ -18,7 +18,7 @@
     "mysql": "^2.7.0",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
-    "snyk": "^1.41.1"
+    "snyk": "^1.192.4"
   },
   "snyk": true
 }
